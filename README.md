@@ -1,1 +1,5 @@
-# rez-packages
+
+### Requires
+
+* System Python
+* Rez
