@@ -1,12 +1,15 @@
-early = globals()["early"]
+early = globals()["early"]  # lint helper
 
 name = "Qt.py"
 
 uuid = "repository.Qt.py"
 
+description = "Minimal Python 2 & 3 shim around all Qt bindings - " \
+              "PySide, PySide2, PyQt4 and PyQt5."
+
 
 @early()
-def __latest():
+def __payload():
     import os
     import json
     import shutil
@@ -48,20 +51,16 @@ def __latest():
 
 @early()
 def version():
-    this = globals()["this"]
-    return this.__latest["tag"]
-
-
-description = "Minimal Python 2 & 3 shim around all Qt bindings - "\
-              "PySide, PySide2, PyQt4 and PyQt5."
+    data = globals()["this"].__payload
+    return data["tag"]
 
 
 @early()
 def authors():
     from subprocess import check_output
 
-    this = globals()["this"]
-    repo = this.__latest["repo"]
+    data = globals()["this"].__payload
+    repo = data["repo"]
 
     name_list = check_output(["git", "shortlog", "-sn"],
                              cwd=repo).strip().decode()
@@ -72,15 +71,11 @@ def authors():
     return contributors
 
 
-def __has_package(pkg_request):
-    from rez.packages import get_latest_package_from_string
-    return get_latest_package_from_string(pkg_request)
-
-
 @early()
 def variants():
     import os
     import shutil
+    from rez import packages
 
     bindings = [
         "PyQt5",
@@ -89,12 +84,13 @@ def variants():
         "PySide",
     ]
     variants_ = [
-        [binding] for binding in bindings if __has_package(binding)
+        [binding] for binding in bindings
+        if packages.get_latest_package_from_string(binding)
     ]
     if not variants_:
         # cleanup
-        this = globals()["this"]
-        shutil.rmtree(this.__latest["temp"])
+        data = globals()["this"].__payload
+        shutil.rmtree(data["temp"])
 
         raise Exception("No Qt binding package found.")
 
@@ -102,8 +98,6 @@ def variants():
 
     return variants_
 
-
-# build_requires = ["python-3"]  # For author name (unicode)
 
 build_command = "python {root}/rezbuild.py {install}"
 
