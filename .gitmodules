@@ -1,0 +1,3 @@
+[submodule "gitz"]
+	path = gitz
+	url = https://github.com/davidlatwe/rez-gitz.git
