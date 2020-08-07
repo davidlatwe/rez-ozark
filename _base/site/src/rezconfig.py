@@ -1,22 +1,29 @@
 
+import os
 ModifyList = globals()["ModifyList"]
 
 
 categories = [
-    "apps",
-    # "projects",
-    # "plugins",
+    "_apps",
+    # "_projects",
+    # "_plugins",
     # there should be more ...
 ]
 
 
-local_packages_path = "~/rez/site-install"
-release_packages_path = "~/rez/site-release"
-
-packages_path = ModifyList(prepend=[
-    local_packages_path,  # locally installed, not yet deployed
-    release_packages_path,
-])
+local_packages_path = "~/rez/site-install"  # local path
+release_packages_path = os.environ["SITE_PACKAGES_RELEASE_PATH"]  # shared
+packages_path = ModifyList(
+    # Here used *prepend* so the site packages path will
+    # precede local machine's
+    prepend=[
+        local_packages_path,
+        release_packages_path,
+    ] + [
+        os.path.join(release_packages_path, category)
+        for category in categories
+    ]
+)
 # in ~/.bash_profile
 # # Prepend machine config
 # #   use prepend so other configs from packages can have precedence
