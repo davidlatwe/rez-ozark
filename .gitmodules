@@ -8,3 +8,6 @@
 	path = pipz
 	url = https://github.com/davidlatwe/rez-pipz.git
 	branch = dev
+[submodule "miniconda"]
+	path = miniconda
+	url = https://github.com/davidlatwe/rez-miniconda.git
