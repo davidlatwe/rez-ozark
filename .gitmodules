@@ -4,3 +4,7 @@
 [submodule "Qt.rez"]
 	path = Qt.rez
 	url = https://github.com/davidlatwe/Qt.rez.git
+[submodule "pipz"]
+	path = pipz
+	url = https://github.com/davidlatwe/rez-pipz.git
+	branch = dev
