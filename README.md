@@ -20,7 +20,7 @@ cd ./rez | rez-release
 
 ```shell script
 cd ../_base/default | rez-release
-cd .../miniconda | rez-release
+cd ../../miniconda | rez-release
 cd ../python | rez-release --version=3.6
 cd ../gitz | rez-release
 cd ../pipz | rez-release
