@@ -1,3 +1,6 @@
 [submodule "gitz"]
 	path = gitz
 	url = https://github.com/davidlatwe/rez-gitz.git
+[submodule "Qt.rez"]
+	path = Qt.rez
+	url = https://github.com/davidlatwe/Qt.rez.git
