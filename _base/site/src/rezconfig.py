@@ -11,7 +11,7 @@ categories = [
 ]
 
 
-local_packages_path = "~/rez/site-install"  # local path
+local_packages_path = "~/rez/packages/site-install"  # local path
 release_packages_path = os.environ["SITE_PACKAGES_RELEASE_PATH"]  # shared
 packages_path = ModifyList(
     # Here used *prepend* so the site packages path will
