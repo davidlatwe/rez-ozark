@@ -123,7 +123,11 @@ packages = [
 
 def release(package):
     print("Releasing package %s ..." % package["name"])
-    subprocess.check_output(**package["command"])
+    popen = subprocess.Popen(**package["command"],
+                             stdout=subprocess.STDOUT,
+                             stderr=subprocess.PIPE)
+    out, _ = popen.communicate()
+    print(out)
 
 
 if __name__ == "__main__":
