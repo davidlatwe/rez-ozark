@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+export PATH=~/rez/core/Scripts/rez:$PATH
+export REZ_CONFIG_FILE=./rezconfig.py
+python ./rez.py "$@"
