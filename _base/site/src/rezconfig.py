@@ -4,12 +4,17 @@ ModifyList = globals()["ModifyList"]
 
 
 categories = [
+    "_gitz",
+    "_pipz",
+
     "_apps",
     # "_projects",
     # "_plugins",
     # there should be more ...
 ]
 
+
+# (TODO) REZ_LOCALIZED_PACKAGES_PATH
 
 local_packages_path = "~/rez/packages/site-install"  # local path
 release_packages_path = os.environ["SITE_PACKAGES_RELEASE_PATH"]  # shared
@@ -38,10 +43,10 @@ package_preprocess_mode = "before"
 
 
 def package_preprocess_function(this, data):
+    import os
     from rez.config import config
     from rez.exceptions import InvalidPackageError
     from rez.utils.formatting import PackageRequest
-    import os
 
     config_override = data.get("config", {})
 
@@ -50,12 +55,16 @@ def package_preprocess_function(this, data):
 
     # davidlatwe/rez-gitz
     if data.get("gitz"):
-        pass
+        config_override["release_packages_path"] = os.path.join(
+            config.release_packages_path, "_gitz"
+        )
 
     # mottosso/rez-pipz
     if data.get("pipz"):
         # This change will be ignored if "--prefix" has set
-        pass
+        config_override["release_packages_path"] = os.path.join(
+            config.release_packages_path, "_pipz"
+        )
 
     # Site categorizing rules
     if data.get("category"):
