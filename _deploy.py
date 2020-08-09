@@ -32,18 +32,6 @@ packages = [
     },
 
     {
-        "name": "python-system",
-        "install": {
-            "args": ["rez-build", "--install"],
-            "cwd": os.path.join(root, "_base", "python"),
-        },
-        "release": {
-            "args": ["rez-release"],
-            "cwd": os.path.join(root, "_base", "python"),
-        },
-    },
-
-    {
         "name": "miniconda",
         "install": {
             "args": ["rez-build", "--install"],
