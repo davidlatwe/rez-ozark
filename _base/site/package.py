@@ -13,6 +13,7 @@ build_command = "python {root}/rezbuild.py {install}"
 
 
 requires = [
+    "python",
     "rich",
     "environs",
 ]
