@@ -14,8 +14,9 @@ build_command = "python {root}/rezbuild.py {install}"
 
 requires = [
     "python",
-    "rich",
     "environs",
+    # (NOTE) Disable 'rich' for now until rez-pipz#30 gets resolved
+    # "rich",
 ]
 
 variants = [

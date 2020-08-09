@@ -141,18 +141,19 @@ packages = [
         },
     },
 
-    {
-        "name": "rich",
-        "install": {
-            "args": ["rez-env", "pipz", "--", "install", "rich", "--yes"],
-            "cwd": root,
-        },
-        "release": {
-            "args": ["rez-env", "pipz", "--", "install", "rich", "--yes",
-                     "--release"],
-            "cwd": root,
-        },
-    },
+    # (NOTE) Disable 'rich' for now until rez-pipz#30 gets resolved
+    # {
+    #     "name": "rich",
+    #     "install": {
+    #         "args": ["rez-env", "pipz", "--", "install", "rich", "--yes"],
+    #         "cwd": root,
+    #     },
+    #     "release": {
+    #         "args": ["rez-env", "pipz", "--", "install", "rich", "--yes",
+    #                  "--release"],
+    #         "cwd": root,
+    #     },
+    # },
 
     {
         "name": "environs",
