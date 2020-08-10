@@ -76,6 +76,7 @@ if __name__ == "__main__":
     config_path = None
     if opt.with_config:
         config_path = os.path.join(os.path.dirname(__file__), "rezconfig.py")
+        config_path = os.path.abspath(config_path)
 
     if opt.with_package:
         if opt.install_rez:
