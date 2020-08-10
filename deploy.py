@@ -78,9 +78,10 @@ if __name__ == "__main__":
         config_path = os.path.join(os.path.dirname(__file__), "rezconfig.py")
 
     if opt.with_package:
-        if not confirm("Continue to deploy packages ? [Y/n]\n"):
-            print("Cancelled")
-            sys.exit(0)
+        if opt.install_rez:
+            if not confirm("Continue to deploy packages ? [Y/n]\n"):
+                print("Cancelled")
+                sys.exit(0)
 
         if config_path:
             print("Deploying packages with this config: %s" % config_path)
