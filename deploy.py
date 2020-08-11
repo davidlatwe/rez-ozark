@@ -60,7 +60,8 @@ if __name__ == "__main__":
     parser.add_argument("--install-rez", nargs="?", const=True, default=False,
                         help="Rez install path if you want to install it. "
                              "If enabled but no path given, Rez will be "
-                             "installed in ~/rez/core")
+                             "installed in '~/rez/core'. Directory will be "
+                             "removed if exists.")
     parser.add_argument("--deploy-package", action="store_true",
                         help="Deploy packages from this repository.")
     parser.add_argument("--with-config", nargs="?", const=True, default=False,

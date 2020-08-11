@@ -34,7 +34,8 @@ optional arguments:
   -h, --help            show this help message and exit
   --install-rez [INSTALL_REZ]
                         Rez install path if you want to install it. If enabled
-                        but no path given, Rez will be installed in ~/rez/core
+                        but no path given, Rez will be installed in
+                        '~/rez/core'. Directory will be removed if exists.
   --deploy-package      Deploy packages from this repository.
   --with-config [WITH_CONFIG]
                         Deploy packages with config ($REZ_CONFIG_FILE). If
@@ -42,5 +43,6 @@ optional arguments:
                         will be used.
   --release             Deploy to package releasing location.
   --yes                 Yes to all.
+
 
 ```
