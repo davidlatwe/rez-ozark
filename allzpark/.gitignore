@@ -1,0 +1,16 @@
+*.egg-info
+*.pyc
+__pycache__
+__version__.py
+build
+dist
+
+# Development
+.vscode
+.idea
+
+site
+
+*-stdout.txt
+*-stderr.txt
+*-stdin.txt
