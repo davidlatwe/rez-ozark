@@ -57,35 +57,50 @@ if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("location", nargs="?")
-    parser.add_argument("--install-rez", action="store_true")
-    parser.add_argument("--with-config", action="store_true")
-    parser.add_argument("--with-package", action="store_true")
-    parser.add_argument("packages", nargs="*")
-    parser.add_argument("--release", action="store_true")
-    parser.add_argument("--yes", action="store_true")
+    parser.add_argument("--install-rez", nargs="?", const=True, default=False,
+                        help="Rez install path if you want to install it. "
+                             "If enabled but no path given, Rez will be "
+                             "installed in ~/rez/core")
+    parser.add_argument("--deploy-package", action="store_true",
+                        help="Deploy packages from this repository.")
+    parser.add_argument("--with-config", nargs="?", const=True, default=False,
+                        help="Deploy packages with config ($REZ_CONFIG_FILE). "
+                             "If enabled but no config path(s) given, "
+                             "./rezconfig.py will be used.")
+    parser.add_argument("packages", nargs="*",
+                        help="Deploy only these packages. Deploy ALL if no "
+                             "specification.")
+    parser.add_argument("--release", action="store_true",
+                        help="Deploy to package releasing location.")
+    parser.add_argument("--yes", action="store_true",
+                        help="Yes to all.")
 
     opt = parser.parse_args()
 
     if opt.install_rez:
-        dst = install_rez(opt.location)
+        use_default = opt.install_rez is True
+        dst = install_rez(location=None if use_default else opt.install_rez)
 
         # Update environment for later subprocess deploy
         os.environ["PATH"] = os.path.pathsep.join([dst, os.environ["PATH"]])
 
     config_path = None
     if opt.with_config:
-        config_path = os.path.join(os.path.dirname(__file__), "rezconfig.py")
-        config_path = os.path.abspath(config_path)
+        use_default = opt.with_config is True
+        if use_default:
+            config_path = os.path.abspath(
+                os.path.join(os.path.dirname(__file__), "rezconfig.py"))
+        else:
+            config_path = opt.with_config
 
-    if opt.with_package:
+    if opt.deploy_package:
         if opt.install_rez:
             if not confirm("Continue to deploy packages ? [Y/n]\n"):
                 print("Cancelled")
                 sys.exit(0)
 
         if config_path:
-            print("Deploying packages with this config: %s" % config_path)
+            print("Deploying packages with $REZ_CONFIG_FILE=%s" % config_path)
             if not opt.yes:
                 if not confirm("Are you sure ? [Y/n]\n"):
                     print("Cancelled")
@@ -96,8 +111,8 @@ if __name__ == "__main__":
         deploy_package(opt.packages, opt.release)
 
         print("=" * 30)
-        print("All deployed.")
+        print("SUCCESS!\n")
 
         if config_path:
-            print("Packages were deployed with config: %s" % config_path)
-            print("Remember to add it into $REZ_CONFIG_FILE")
+            print("Deployed with $REZ_CONFIG_FILE=%s" % config_path)
+            print("Use the same $REZ_CONFIG_FILE when accessing packages.\n")
