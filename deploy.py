@@ -83,7 +83,15 @@ if __name__ == "__main__":
         dst = install_rez(location=None if use_default else opt.install_rez)
 
         # Update environment for later subprocess deploy
-        os.environ["PATH"] = os.path.pathsep.join([dst, os.environ["PATH"]])
+        rez_bin = os.path.join(dst, "bin", "rez")
+        os.environ["PATH"] = os.path.pathsep.join([rez_bin, os.environ["PATH"]])
+
+    # Ensure Rez is reachable
+    try:
+        subprocess.check_output(["rez-build", "-h"])
+    except OSError:
+        print("Rez not found.")
+        sys.exit(1)
 
     config_path = None
     if opt.with_config:
