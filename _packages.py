@@ -129,6 +129,18 @@ packages = [
         },
     },
 
+    {
+        "name": "rezgui",
+        "install": {
+            "args": ["rez-build", "--install"],
+            "cwd": os.path.join(root, "rezgui"),
+        },
+        "release": {
+            "args": ["rez-release"],
+            "cwd": os.path.join(root, "rezgui"),
+        },
+    },
+
     # (NOTE) Disable 'rich' for now until rez-pipz#30 gets resolved
     # {
     #     "name": "rich",
