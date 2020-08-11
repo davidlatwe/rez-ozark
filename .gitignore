@@ -219,3 +219,5 @@ fabric.properties
 .idea/rez-packages.iml
 .idea/vcs.xml
 /.idea/codeStyles/codeStyleConfig.xml
+
+.DS_Store
