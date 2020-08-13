@@ -1,7 +1,9 @@
+
 name = "visualstudio"
+
 version = "2017"
-description = \
-"""
+
+description = """
 Microsoft Visual Studio (Reference package)
 
 This is a somewhat hacky package that triggers the
@@ -18,6 +20,7 @@ tools = [
     "cmake"
 ]
 
+
 def commands():
     import os
     global env
@@ -30,18 +33,18 @@ def commands():
     def collect_environment(cmd):
         # Return the new resulting environment variables from the command
         result = subprocess.check_output("%s & set" % cmd)
-        #result = result.decode("mbcs")
+
         devenv = {}
         for line in result.splitlines():
             if not line.strip():
                 continue
             if line.startswith("*") or line.startswith("_"):
                 continue
-                
+
             if "=" not in line:
                 continue
-                
-            key, value = line.split("=",1)
+
+            key, value = line.split("=", 1)
             
             # In some cases values end with \\ for no reason. Let's force remove it only
             # from those that do not seem to refer to a path (don't have :\ in it, like C:\) 
@@ -61,7 +64,6 @@ def commands():
             devenv[key] = os.pathsep.join(paths)
 
         return devenv
-    
 
     root = (
         r"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community"
@@ -78,5 +80,4 @@ def commands():
             # to ensure it's not suddenly prefixed with ;
             env[key] = paths
         else:
-        
             env[key].append(paths)
