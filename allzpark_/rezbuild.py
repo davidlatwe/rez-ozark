@@ -2,23 +2,25 @@
 import os
 import sys
 import shutil
+import subprocess
 
 
 def build(source_path, build_path, install_path, targets=None):
     targets = targets or []
 
     if "install" in targets:
-        dst = install_path + "/payload"
+        dst = install_path
     else:
-        dst = build_path + "/payload"
+        dst = build_path
 
     dst = os.path.normpath(dst)
 
     if os.path.isdir(dst):
         shutil.rmtree(dst)
+    os.makedirs(dst)
 
-    scr = os.path.join(source_path, "src")
-    shutil.copytree(scr, dst)
+    args = ["python", "setup.py", "--quiet", "build", "--build-base", dst]
+    subprocess.check_call(args, cwd=source_path)
 
 
 if __name__ == "__main__":

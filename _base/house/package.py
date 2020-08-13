@@ -1,22 +1,22 @@
 
-name = "site"
+name = "house"
 
-uuid = "studio.site"
+uuid = "studio.house"
 
 version = "0.1.0"
 
-description = "Studio/site-wide environment entry"
-
-authors = ["davidlatwe"]
+description = "Studio/site-wide house production environment entry"
 
 build_command = "python {root}/rezbuild.py {install}"
 
 
 requires = [
     "python",
+    "pymongo",
     "environs",
     # (NOTE) Disable 'rich' for now until rez-pipz#30 gets resolved
     # "rich",
+    "ozark",
 ]
 
 variants = [
@@ -24,14 +24,17 @@ variants = [
 ]
 
 
-def commands():
-    env = globals()["env"]  # linter help
-    env.REZ_CONFIG_FILE.append("{root}/payload/rezconfig.py")
-
+def pre_commands():
     # Parse environment setup from .env via `environs`
-    # `SITE_PACKAGES_RELEASE_PATH`
     # `AVALON_DEADLINE`
     # `AVALON_MONGODB`
     # ...
+    pass
+
+
+def commands():
+    env = globals()["env"]  # linter help
+
+    env.REZ_RELEASE_SHOWS_PATH = "~/rez/shows"
 
     # May add some welcome message here. With `rich`

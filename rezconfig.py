@@ -1,47 +1,73 @@
 
 import os
-ModifyList = globals()["ModifyList"]
 
 
-categories = [
-    "_gitz",
-    "_pipz",
-    # there should be more ...
+""" Optional release path from environment
+
+If following environment var presented, will *APPEND* into `packages_path`.
+These environ vars can be provided by packages' `commands`.
+
+"""
+__OPT_RELEASE_KEYS = [
+    # pipeline modules, internal tools.
+    "REZ_OPT_RELEASE_INT_PATH",
+    # DCC Apps, plugins, other third party, external stuff.
+    "REZ_OPT_RELEASE_EXT_PATH",
 ]
 
-local_packages_path = "~/rez/packages/local-install"
-release_packages_path = "~/rez/packages/local-release"
-packages_path = ModifyList(
-    prepend=[
-        local_packages_path,
-        release_packages_path,
-    ] + [
-        os.path.join(release_packages_path, category)
-        for category in categories
-    ]
-)
+
+# Rez's default package path excluded
+local_packages_path = "~/rez/packages/install"
+release_packages_path = "~/rez/packages/release"
+packages_path = [
+    local_packages_path,
+    release_packages_path,
+]
+# *Append* additional release path
+for key in __OPT_RELEASE_KEYS:
+    if os.getenv(key):
+        packages_path.append(os.environ[key])
+
+
+package_preprocess_mode = "before"
+# "before": Package's preprocess is executed before the global preprocess
+# "after": Package's preprocess is executed after the global preprocess
+# "override": Package's preprocess completely overrides the global preprocess
 
 
 def package_preprocess_function(this, data):
-    import os
-    from rez.config import config
+    from rez.utils.formatting import PackageRequest
 
-    config_override = data.get("config", {})
-
-    # Redirecting package release path
+    # Must have variant
     #
 
-    # davidlatwe/rez-gitz
-    if data.get("gitz"):
-        config_override["release_packages_path"] = os.path.join(
-            config.release_packages_path, "_gitz"
-        )
+    if this.name != "default" and not this.variants:
+        # Add "default" if no variant
+        data["variants"] = [["default"]]
 
-    # mottosso/rez-pipz
-    if data.get("pipz"):
-        # This change will be ignored if "--prefix" has set
-        config_override["release_packages_path"] = os.path.join(
-            config.release_packages_path, "_pipz"
-        )
+    # Replacing package requirements
+    #
 
-    data["config"] = config_override
+    REQUIREMENT_MAP = {
+        # Example
+        "installing_package_name": {
+            "required_request_string": "replacement_request_string",
+        },
+
+    }
+    if this.name in REQUIREMENT_MAP:
+
+        remapped_requires = list()
+
+        map_ = REQUIREMENT_MAP[this.name]
+        for package in this.requires:
+
+            if str(package) in map_:
+                package = PackageRequest(map_[str(package)])
+
+            elif package.name in map_:
+                package = PackageRequest(map_[package.name])
+
+            remapped_requires.append(package)
+
+        data["requires"] = remapped_requires

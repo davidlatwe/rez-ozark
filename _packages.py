@@ -169,14 +169,27 @@ packages = [
     },
 
     {
-        "name": "site",
+        "name": "pymongo",
+        "install": {
+            "args": ["rez-env", "pipz", "--", "install", "pymongo", "--yes"],
+            "cwd": root,
+        },
+        "release": {
+            "args": ["rez-env", "pipz", "--", "install", "pymongo", "--yes",
+                     "--release"],
+            "cwd": root,
+        },
+    },
+
+    {
+        "name": "house",
         "install": {
             "args": ["rez-build", "--install"],
-            "cwd": os.path.join(root, "_base", "site"),
+            "cwd": os.path.join(root, "_base", "house"),
         },
         "release": {
             "args": ["rez-release"],
-            "cwd": os.path.join(root, "_base", "site"),
+            "cwd": os.path.join(root, "_base", "house"),
         },
     },
 
