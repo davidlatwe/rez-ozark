@@ -29,6 +29,12 @@ for key in __OPT_RELEASE_KEYS:
         packages_path.append(os.environ[key])
 
 
+package_definition_python_path = os.path.join(
+    os.path.dirname(__file__),
+    "rezshare",
+)
+
+
 package_preprocess_mode = "before"
 # "before": Package's preprocess is executed before the global preprocess
 # "after": Package's preprocess is executed after the global preprocess
