@@ -11,13 +11,14 @@ authors = ["JetBrains"]
 
 tools = [
     "pycharm",
+    "charm",
 ]
 
 variants = [
     ["platform-*"],
 ]
 
-build_command = False
+build_command = "python {root}/rezbuild.py {install}"
 
 
 def commands():
@@ -32,3 +33,5 @@ def commands():
         raise NotImplementedError
     else:
         print("Unknown platform: %s" % system.platform)
+
+    env.PATH.prepend("{root}/bin")
