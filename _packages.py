@@ -156,14 +156,15 @@ packages = [
     # },
 
     {
-        "name": "environs",
+        "name": "python_dotenv",
         "install": {
-            "args": ["rez-env", "pipz", "--", "install", "environs", "--yes"],
+            "args": ["rez-env", "pipz", "--", "install", "python_dotenv",
+                     "--yes"],
             "cwd": root,
         },
         "release": {
-            "args": ["rez-env", "pipz", "--", "install", "environs", "--yes",
-                     "--release"],
+            "args": ["rez-env", "pipz", "--", "install", "python_dotenv",
+                     "--yes", "--release"],
             "cwd": root,
         },
     },
