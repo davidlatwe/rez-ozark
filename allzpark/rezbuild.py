@@ -6,6 +6,7 @@ import subprocess
 
 
 def build(source_path, build_path, install_path, targets=None):
+    __allzparksrc = source_path + "src"
     targets = targets or []
 
     if "install" in targets:
@@ -20,7 +21,7 @@ def build(source_path, build_path, install_path, targets=None):
     os.makedirs(dst)
 
     args = ["python", "setup.py", "--quiet", "build", "--build-base", dst]
-    subprocess.check_call(args, cwd=source_path)
+    subprocess.check_call(args, cwd=__allzparksrc)
 
 
 if __name__ == "__main__":
