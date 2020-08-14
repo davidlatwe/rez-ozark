@@ -23,6 +23,8 @@ def profiles():
     #   Read-only MongoDB rez repo plugin for allzpark, rez-env, rez-search...
     #   It will be version less. (mongoread)
 
+    # rolez (uzer)
+
     # rez-produzed: git repo for profile packages, if you need git.
 
     try:

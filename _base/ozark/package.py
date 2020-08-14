@@ -8,7 +8,8 @@ description = "Able to read from MongoDB"
 authors = ["davidlatwe"]
 
 requires = [
-    "python",
+    "rez",
+    # "montydb",
     "pymongo",
     "allzpark",
 ]
@@ -17,10 +18,15 @@ build_command = "python {root}/rezbuild.py {install}"
 
 
 def commands():
+    import os
     env = globals()["env"]
 
-    env.ALLZPARK_CONFIG_FILE = "{root}/config/allzparkconfig.py"
-    env.REZ_CONFIG_FILE.append("{root}/config/rezconfig.py")
+    # Keep pre-exists `REZ_CONFIG_FILE` if any, e.g. from ~/.bash_profile
+    # which might get overwritten when new shell spawned.
+    env["REZ_CONFIG_FILE"] = os.getenv("REZ_CONFIG_FILE", "")
+    env["REZ_CONFIG_FILE"].append("{root}/config/rezconfig.py")
+
+    env["ALLZPARK_CONFIG_FILE"] = "{root}/config/allzparkconfig.py"
 
     env.PATH.prepend("{root}/bin")
     env.PYTHONPATH.prepend("{root}/python")
