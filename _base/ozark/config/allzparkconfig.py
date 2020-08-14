@@ -11,8 +11,9 @@ def profiles():
 
     # view: super set of profile `features` attributes
     #   REZ_VIEW=show.ongoing;dev.pipeline;
+
     # role: super set of profile `positions` attributes
-    #   REZ_ROLE=artist;tech.artist;developer;admin
+    #   REZ_ROLE=artist;technical;developer;admin
 
     # produzer:
     #   Write profile package to MongoDB (or MontyDB for test)

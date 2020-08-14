@@ -183,6 +183,30 @@ packages = [
     },
 
     {
+        "name": "allzpark",
+        "install": {
+            "args": ["rez-build", "--install"],
+            "cwd": os.path.join(root, "allzpark"),
+        },
+        "release": {
+            "args": ["rez-release"],
+            "cwd": os.path.join(root, "allzpark"),
+        },
+    },
+
+    {
+        "name": "ozark",
+        "install": {
+            "args": ["rez-build", "--install"],
+            "cwd": os.path.join(root, "_base", "ozark"),
+        },
+        "release": {
+            "args": ["rez-release"],
+            "cwd": os.path.join(root, "_base", "ozark"),
+        },
+    },
+
+    {
         "name": "house",
         "install": {
             "args": ["rez-build", "--install"],

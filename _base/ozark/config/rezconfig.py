@@ -1,11 +1,20 @@
 
+import os
 ModifyList = globals()["ModifyList"]
 
 
 packages_path = ModifyList(append=[
-    "mongodb uri"
+    "mongozark@rez.ozark"  # <repo>@<dbName>.<colName>
 ])
 
 plugin_path = ModifyList(append=[
-    "mongoread"
+    "{root}/rezplugins"
 ])
+
+plugins = {
+    "package_repository": {
+        "mongozark": {
+            "uri": os.getenv("OZARK_MONGODB", "localhost:20717")
+        },
+    }
+}
