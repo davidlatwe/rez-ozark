@@ -2,7 +2,6 @@
 import os
 import sys
 import shutil
-import platform
 import subprocess
 
 
@@ -38,36 +37,15 @@ def build(source_path, build_path, install_path, targets=None):
 
 
 def install_rez_dependency(modules):
-    bin_dir = find_rez_bin_dir()
-    if bin_dir is None:
-        raise Exception("Rez installation not found. Is rez bin in $PATH ?")
-
     args = [
-        "rez-env",  # jump to clean env so we can touch rez core
+        "rez-env",
+        "rezcore",  # Dive into Rez's virtual env
         "--",
         "pip",
         "install"
     ] + modules
 
-    subprocess.check_call(args, cwd=bin_dir)
-
-
-def find_rez_bin_dir():
-    if platform.system() == "Windows":
-        finder = "where"
-    else:
-        finder = "which"
-
-    try:
-        locations = subprocess.check_output([finder, "rez"],
-                                            universal_newlines=True)
-    except subprocess.CalledProcessError:
-        return
-
-    rez_exec = locations.split("\n")[0]
-    bin_dir = os.path.dirname(os.path.dirname(rez_exec))
-
-    return bin_dir
+    subprocess.check_call(args)
 
 
 if __name__ == "__main__":
