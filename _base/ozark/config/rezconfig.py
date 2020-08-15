@@ -8,7 +8,7 @@ packages_path = ModifyList(append=[
     os.getenv("OZARK_LOCATION", "mongozark@rez.ozark"),
 ])
 
-debug_plugins = True
+debug_plugins = False  # Turn this on if plugin not loaded.
 
 plugin_path = ModifyList(append=[
     os.path.dirname(os.path.dirname(__file__))
