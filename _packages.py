@@ -68,6 +68,18 @@ packages = [
     },
 
     {
+        "name": "rezcore",
+        "install": {
+            "args": ["rez-build", "--install"],
+            "cwd": os.path.join(root, "_base", "rezcore"),
+        },
+        "release": {
+            "args": ["rez-release"],
+            "cwd": os.path.join(root, "_base", "rezcore"),
+        },
+    },
+
+    {
         "name": "gitz",
         "install": {
             "args": ["rez-build", "--install"],
