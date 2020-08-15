@@ -8,15 +8,13 @@ uuid = "studio.house"
 
 version = "0.1.0"
 
-description = "Studio/site-wide house production environment entry"
+description = "Studio/site-wide house production environment"
 
 requires = [
     "python",
-    "pymongo",
     "python_dotenv",
     # (NOTE) Disable 'rich' for now until rez-pipz#30 gets resolved
     # "rich",
-    # "ozark",
 ]
 
 variants = [

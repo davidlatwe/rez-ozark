@@ -8,9 +8,6 @@ description = "Able to read from MongoDB"
 authors = ["davidlatwe"]
 
 requires = [
-    "rez",
-    # "montydb",
-    "pymongo",
     "allzpark",
 ]
 

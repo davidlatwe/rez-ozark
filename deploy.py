@@ -2,6 +2,7 @@
 import os
 import sys
 import shutil
+import platform
 import functools
 import subprocess
 import _packages
@@ -22,12 +23,53 @@ def confirm(msg):
         return False
 
 
+def find_rez_bin_dir():
+    finders = {
+        "Linux": "which",
+        "Darwin": "which",
+        "Windows": "where",
+    }
+    try:
+        finder = finders[platform.system()]
+    except KeyError:
+        raise KeyError("Unknown platform.")
+
+    try:
+        locations = subprocess.check_output([finder, "rez"],
+                                            universal_newlines=True)
+    except subprocess.CalledProcessError:
+        return
+
+    rez_exec = locations.split("\n")[0]
+    bin_dir = os.path.dirname(os.path.dirname(rez_exec))
+
+    return bin_dir
+
+
 def deploy_package(packages=None, release=False):
     for pkg in _packages.packages:
         if packages and pkg["name"] not in packages:
             continue
 
+        modules = pkg.get("rezCoreDependencies")
+        if modules:
+            print("Installing %s dependencies into Rez core" % pkg["name"])
+            install_rez_dependency(modules)
+
         _packages.deploy(pkg, release)
+
+
+def install_rez_dependency(modules):
+    bin_dir = find_rez_bin_dir()
+    if bin_dir is None:
+        raise Exception("Rez installation not found. Is rez bin in $PATH ?")
+
+    args = [
+        "./pip",
+        "install"
+    ] + modules
+
+    subprocess.check_call(args, cwd=bin_dir)
 
 
 def install_rez(location=None):

@@ -204,6 +204,10 @@ packages = [
             "args": ["rez-release"],
             "cwd": os.path.join(root, "_base", "ozark"),
         },
+        "rezCoreDependencies": [
+            "pymongo",
+            "montydb"
+        ]
     },
 
     {
