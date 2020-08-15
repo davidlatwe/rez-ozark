@@ -8,6 +8,9 @@ def profiles():
     Can also be a variable of type tuple or list
 
     """
+    # (TODO) Dev `produzer`, `produzer-gui` in rez-project !!
+    #   * Or maybe we don't need gui, just set editor and provide a template
+    #     package.py (or profile.py ?), then build into montydb or mongodb.
 
     # view: super set of profile `features` attributes
     #   REZ_VIEW=show.ongoing;dev.pipeline;
