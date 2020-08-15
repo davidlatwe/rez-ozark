@@ -36,9 +36,11 @@ def commands():
     # requirement
     libpkg.sys_path_prepend(env)
 
-    # Parse environment setup from .env
-    libpkg.load_dotenv(file=os.path.join(this.root, ".env"),
-                       env=env)
+    # Parse environment setup from .env, if exists
+    env_file = os.path.join(this.root, ".env")
+    if os.path.isfile(env_file):
+        libpkg.load_dotenv(file=os.path.join(this.root, ".env"),
+                           env=env)
 
 
 def post_commands():

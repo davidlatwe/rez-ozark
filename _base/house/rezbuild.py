@@ -20,7 +20,10 @@ def build(source_path, build_path, install_path, targets=None):
 
     env_src = os.path.join(source_path, ".env")
     env_dst = os.path.join(dst, ".env")
-    shutil.copy(env_src, env_dst)
+    if os.path.isfile(env_src):
+        shutil.copy(env_src, env_dst)
+    else:
+        print(".env file not exists. No env will be set.")
 
 
 if __name__ == "__main__":
