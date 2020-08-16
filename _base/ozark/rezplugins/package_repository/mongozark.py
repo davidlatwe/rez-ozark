@@ -163,7 +163,7 @@ class MongozarkPackageResource(PackageResourceHelper):
 
     def _uri(self):
         obj = VersionedObject.construct(self.name, self.version)
-        return "%s->%s" % (self.location, str(obj))
+        return "mongozark@%s->%s" % (self.location, str(obj))
 
     @cached_property
     def parent(self):
