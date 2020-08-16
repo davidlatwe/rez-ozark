@@ -49,7 +49,7 @@ class MongozarkPackageFamilyResource(PackageFamilyResource):
         return "%s@%s" % (self.name, self.location)
 
     def get_last_release_time(self):
-        data = self._repository.packages.find_one(
+        data = self._repository.collection.find_one(
             {"name": self.name},
             projection={"mtime": True},
             sort=[("mtime", -1)],
@@ -61,7 +61,7 @@ class MongozarkPackageFamilyResource(PackageFamilyResource):
             return time.mktime(data["mtime"].timetuple())
 
     def iter_packages(self):
-        for data in self._repository.packages.find(
+        for data in self._repository.collection.find(
             {"name": self.name},
             projection={"version": True},
         ):
@@ -121,7 +121,7 @@ class MongozarkPackageResource(PackageResourceHelper):
         return None  # mongodb resource doesn't have 'base' path
 
     def _load(self):
-        data = self._repository.packages.find_one(
+        data = self._repository.collection.find_one(
             {
                 "name": self.name,
                 "version": self.get("version"),
@@ -171,7 +171,7 @@ class MongozarkPackageRepository(PackageRepository):
         client = MongoClient(settings.uri)
         db = client[database]
 
-        self.packages = db[collection]
+        self.collection = db[collection]
 
         super(MongozarkPackageRepository, self).__init__(location,
                                                          resource_pool)
@@ -228,7 +228,7 @@ class MongozarkPackageRepository(PackageRepository):
     def _get_families(self):
         families = []
 
-        for name in self.packages.distinct("name"):
+        for name in self.collection.distinct("name"):
             family = self.get_resource(
                 MongozarkPackageFamilyResource.key,
                 location=self.location,
@@ -241,7 +241,7 @@ class MongozarkPackageRepository(PackageRepository):
     def _get_family(self, name):
         is_valid_package_name(name, raise_error=True)
 
-        pkg = self.packages.find_one({"name": name}, projection={"_id": True})
+        pkg = self.collection.find_one({"name": name}, projection={"_id": True})
         if pkg is not None:
 
             family = self.get_resource(
