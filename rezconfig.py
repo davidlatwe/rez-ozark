@@ -45,11 +45,16 @@ def package_preprocess_function(this, data):
     from rez.utils.formatting import PackageRequest
 
     # Must have variant
+    #   Unless explicitly set `no_variant=True`
+    #   Or it's the 'default' one
     #
 
-    if this.name != "default" and not this.variants:
-        # Add "default" if no variant
-        data["variants"] = [["default"]]
+    if this.name != "default":
+        no_variants = getattr(this, "no_variants", False)
+
+        if not no_variants and not this.variants:
+            # Add "default" if no variant
+            data["variants"] = [["default"]]
 
     # Replacing package requirements
     #
