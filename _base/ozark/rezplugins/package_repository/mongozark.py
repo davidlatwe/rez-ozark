@@ -103,6 +103,19 @@ class MongozarkPackageResource(PackageResourceHelper):
 
         return None
 
+    def iter_variants(self):
+        indexes = [None]  # No variant needed/allowed in mongozark
+
+        for index in indexes:
+            variant = self._repository.get_resource(
+                self.variant_key,
+                location=self.location,
+                name=self.name,
+                version=self.get("version"),
+                index=index)
+
+            yield variant
+
     @property
     def base(self):
         return None  # mongodb resource doesn't have 'base' path
@@ -121,6 +134,20 @@ class MongozarkPackageResource(PackageResourceHelper):
                 "Missing package definition file: %r" % self)
 
         return data["package"]
+
+
+class MongozarkVariantResource(VariantResourceHelper):
+    key = "mongozark.variant"
+    repository_type = "mongozark"
+
+    @cached_property
+    def parent(self):
+        package = self._repository.get_resource(
+            MongozarkPackageResource.key,
+            location=self.location,
+            name=self.name,
+            version=self.get("version"))
+        return package
 
 
 class MongozarkPackageRepository(PackageRepository):
@@ -146,17 +173,17 @@ class MongozarkPackageRepository(PackageRepository):
 
         self.packages = db[collection]
 
-        qualified_location = "host=%s,port=%s," % client.address
-        qualified_location += "db=%s,col=%s" % (database, collection)
-        super(MongozarkPackageRepository, self).__init__(qualified_location,
+        super(MongozarkPackageRepository, self).__init__(location,
                                                          resource_pool)
 
         self.register_resource(MongozarkPackageFamilyResource)
+        self.register_resource(MongozarkVariantResource)
         self.register_resource(MongozarkPackageResource)
 
         self.get_families = lru_cache(maxsize=None)(self._get_families)
         self.get_family = lru_cache(maxsize=None)(self._get_family)
         self.get_packages = lru_cache(maxsize=None)(self._get_packages)
+        self.get_variants = lru_cache(maxsize=None)(self._get_variants)
 
     def _uid(self):
         return self.name(), self.location
@@ -173,7 +200,8 @@ class MongozarkPackageRepository(PackageRepository):
             yield package
 
     def iter_variants(self, package_resource):
-        return iter([])  # No variant needed in mongozark
+        for variant in self.get_variants(package_resource):
+            yield variant
 
     def get_parent_package_family(self, package_resource):
         return package_resource.parent
@@ -226,6 +254,9 @@ class MongozarkPackageRepository(PackageRepository):
 
     def _get_packages(self, package_family_resource):
         return [x for x in package_family_resource.iter_packages()]
+
+    def _get_variants(self, package_resource):
+        return [x for x in package_resource.iter_variants()]
 
 
 def register_plugin():
