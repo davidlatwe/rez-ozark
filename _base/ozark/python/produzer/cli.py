@@ -11,3 +11,8 @@ def main(argv=None):
                         help="")
 
     opt = parser.parse_args(argv)
+
+    """
+    rez-build --install --prefix mongozark@install.rez.ozark
+    rez-build --install --prefix mongozark@release.rez.ozark
+    """
