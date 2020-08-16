@@ -45,4 +45,5 @@ def commands():
     print("Rez bin dir found: %s" % location)
 
     env.PYTHONHOME = ""
+    env.PYTHONPATH = ""
     env.PATH.prepend(location)
