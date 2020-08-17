@@ -7,6 +7,11 @@ description = "Able to read from MongoDB"
 
 authors = ["davidlatwe"]
 
+tools = [
+    "party",
+    "join",
+]
+
 requires = [
     "rez",
     "pymongo",
