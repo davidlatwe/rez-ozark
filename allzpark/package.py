@@ -29,7 +29,7 @@ def version():
     ).strip()
 
     major, minor, patch = version_str.split(".")
-    return "%s.%s-%s.%s" % (major, minor, branch_name, patch)
+    return "%s.%s-%s.%s" % (branch_name, major, minor, patch)
 
 
 @early()
