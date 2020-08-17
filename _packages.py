@@ -56,6 +56,18 @@ packages = [
     },
 
     {
+        "name": "python-2.7",
+        "install": {
+            "args": ["rez-build", "--install", "--version=2.7"],
+            "cwd": os.path.join(root, "miniconda", "python"),
+        },
+        "release": {
+            "args": ["rez-release", "--version=2.7"],
+            "cwd": os.path.join(root, "miniconda", "python"),
+        },
+    },
+
+    {
         "name": "rez",
         "install": {
             "args": ["rez-build", "--install"],
@@ -189,6 +201,19 @@ packages = [
         },
         "release": {
             "args": ["rez-env", "pipz", "--", "install", "pymongo", "--yes",
+                     "--release"],
+            "cwd": root,
+        },
+    },
+
+    {
+        "name": "montydb",
+        "install": {
+            "args": ["rez-env", "pipz", "--", "install", "montydb", "--yes"],
+            "cwd": root,
+        },
+        "release": {
+            "args": ["rez-env", "pipz", "--", "install", "montydb", "--yes",
                      "--release"],
             "cwd": root,
         },
