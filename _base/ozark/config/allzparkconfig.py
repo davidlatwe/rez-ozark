@@ -1,4 +1,10 @@
 
+from rez.config import config as config_
+from rez.packages import iter_package_families
+
+
+__mongozark = config_.plugins.package_repository.mongozark
+
 
 def profiles():
     """Return list of profiles
@@ -8,10 +14,6 @@ def profiles():
     Can also be a variable of type tuple or list
 
     """
-    # (TODO) Dev `produzer`, `produzer-gui` in rez-project !!
-    #   * Or maybe we don't need gui, just set editor and provide a template
-    #     package.py (or profile.py ?), then build into montydb or mongodb.
-
     # view: super set of profile `features` attributes
     #   REZ_VIEW=show.ongoing;dev.pipeline;
 
@@ -30,8 +32,18 @@ def profiles():
 
     # rez-produzed: git repo for profile packages, if you need git.
 
-    try:
-        # Read profile_model from file or database
-        return ["test", "demo"]
-    except IOError:
-        return []
+    return [
+        pkg_family.name
+        for pkg_family in iter_package_families(paths=__mongozark.profiles)
+    ]
+
+
+def applications():
+    """Return list of applications
+
+    Applications are typically provided by the profile,
+    this function is called when "Show all apps" is enabled.
+
+    """
+
+    return []

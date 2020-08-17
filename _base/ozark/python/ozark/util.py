@@ -63,10 +63,17 @@ def build(location=None):
     subprocess.check_call(args)
 
 
-def env(profile):
+def env(profile, packages):
+    packages = packages or []
+    paths = config_.packages_path[:]
+    paths += get_location()
+
     args = [
         "rez-env",
         profile,
+    ] + packages + [
+        "--paths",
+        os.path.pathsep.join(paths)
     ]
 
     subprocess.check_call(args)

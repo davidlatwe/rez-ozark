@@ -2,30 +2,24 @@
 import os
 ModifyList = globals()["ModifyList"]
 
-
+# Location: install
 __install_uri = os.getenv("OZARK_MONGODB_INSTALL",
                           "montydb://" + os.path.expanduser("~/ozark-data"))
 __install_loc = os.getenv("OZARK_LOCATION_INSTALL",
                           "mongozark@install.rez.ozark")
 
+# Location: release
 __release_uri = os.getenv("OZARK_MONGODB_RELEASE",
                           "localhost:27017")
 __release_loc = os.getenv("OZARK_LOCATION_RELEASE",
                           "mongozark@release.rez.ozark")
 
 
-packages_path = ModifyList(append=[
-    # (TODO) Might need to put this in somewhere else, so the profile
-    #   package won't mixed up with regular packages.
+__profiles_path = [
     __install_loc,
     __release_loc,
-])
-
-debug_plugins = False  # Turn this on if plugin not loaded.
-
-plugin_path = ModifyList(append=[
-    os.path.dirname(os.path.dirname(__file__))
-])
+]
+packages_path = ModifyList(append=__profiles_path)
 
 
 plugins = {
@@ -39,6 +33,16 @@ plugins = {
                 "install": __install_loc,
                 "release": __release_loc
             },
+            # (NOTE) Rez config do not save custom attributes, so we save
+            #   our profile packages path here, with order preserved.
+            "profiles": __profiles_path,
         },
     }
 }
+
+plugin_path = ModifyList(append=[
+    # The path *above* rezplugins/ directory
+    os.path.dirname(os.path.dirname(__file__))
+])
+
+debug_plugins = False  # Turn this on if plugin not loaded.

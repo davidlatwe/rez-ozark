@@ -15,7 +15,7 @@ def party(opt):
 
 
 def join(opt):
-    util.env(opt.profile)
+    util.env(opt.profile, opt.packages)
 
 
 def main(argv=None):
@@ -48,6 +48,11 @@ def main(argv=None):
     parser_join.add_argument(
         "profile",
         help="Profile name to open."
+    )
+    parser_join.add_argument(
+        "packages",
+        nargs="+",
+        help="Additional package requests."
     )
     parser_join.set_defaults(run=join)
 
