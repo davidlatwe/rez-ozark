@@ -22,6 +22,7 @@ from rez.vendor.six import six
 
 from rez.utils.sourcecode import SourceCode
 from rez.vendor.version.version import Version
+from rez.utils.formatting import PackageRequest
 
 import os
 import time
@@ -52,6 +53,11 @@ def package_document(name, version, package_dict):
 
 def _encode(obj):
 
+    if isinstance(obj, list):
+        return [
+            _encode(element) for element in obj
+        ]
+
     if isinstance(obj, SourceCode):
         # Reference: SourceCode.__getstate__
         return {
@@ -70,6 +76,10 @@ def _encode(obj):
                 version=str(obj),
             )
         }
+
+    if isinstance(obj, PackageRequest):
+        # No need to decode it back
+        return str(obj)
 
     return obj
 
