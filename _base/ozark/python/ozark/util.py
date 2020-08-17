@@ -1,7 +1,19 @@
 
 import os
+import shutil
 import subprocess
 from rez.config import config as config_
+
+
+def init():
+    ozark_root = os.environ["REZ_OZARK_ROOT"]
+    template = os.path.join(ozark_root, ".resources", "package_template.py")
+    dst = os.path.join(os.getcwd(), "package.py")
+    if os.path.exists(dst):
+        print("package.py already exists in current directory.")
+        return
+
+    shutil.copy(template, dst)
 
 
 def ls(location=None):

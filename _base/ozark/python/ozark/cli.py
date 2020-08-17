@@ -5,10 +5,13 @@ from . import util
 
 
 def party(opt):
-    if opt.list:
-        util.ls(location=opt.at)
+    if opt.init:
+        util.init()
     else:
-        util.build(location=opt.at)
+        if opt.list:
+            util.ls(location=opt.at)
+        else:
+            util.build(location=opt.at)
 
 
 def join(opt):
@@ -23,15 +26,29 @@ def main(argv=None):
 
     # - party
     parser_party = subparsers.add_parser("party", help="Manage profiles.")
-    parser_party.add_argument("--at", help="Set profile location to write to "
-                                           "or `--list` from.")
-    parser_party.add_argument("--list", help="List profiles.",
-                              action="store_true")
+    parser_party.add_argument(
+        "--init",
+        action="store_true",
+        help="Start creating profile with a template. Other options will "
+             "be ignored if this presented."
+    )
+    parser_party.add_argument(
+        "--at",
+        help="Set profile location to write to or `--list` from."
+    )
+    parser_party.add_argument(
+        "--list",
+        action="store_true",
+        help="List profiles."
+    )
     parser_party.set_defaults(run=party)
 
     # - join
     parser_join = subparsers.add_parser("join", help="Open profiles.")
-    parser_join.add_argument("profile", help="Profile name to open.")
+    parser_join.add_argument(
+        "profile",
+        help="Profile name to open."
+    )
     parser_join.set_defaults(run=join)
 
     # Parsing args
