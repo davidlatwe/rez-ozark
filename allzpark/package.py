@@ -47,6 +47,10 @@ def authors():
     return contributors
 
 
+tools = [
+    "allzpark",
+]
+
 requires = [
     "rez",
     "Qt.py",
@@ -59,4 +63,6 @@ build_command = "python {root}/rezbuild.py {install}"
 
 def commands():
     env = globals()["env"]
+
+    env.PATH.prepend("{root}/bin")
     env.PYTHONPATH.prepend("{root}/lib")

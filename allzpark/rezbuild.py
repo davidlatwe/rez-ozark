@@ -23,6 +23,11 @@ def build(source_path, build_path, install_path, targets=None):
     args = ["python", "setup.py", "--quiet", "build", "--build-base", dst]
     subprocess.check_call(args, cwd=__allzparksrc)
 
+    for dirname in ["bin"]:
+        dir_src = os.path.join(source_path, dirname)
+        dir_dst = os.path.join(dst, dirname)
+        shutil.copytree(dir_src, dir_dst)
+
 
 if __name__ == "__main__":
     build(source_path=os.environ["REZ_BUILD_SOURCE_PATH"],
