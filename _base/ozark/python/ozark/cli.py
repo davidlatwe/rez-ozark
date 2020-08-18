@@ -14,10 +14,6 @@ def party(opt):
             util.build(location=opt.at)
 
 
-def join(opt):
-    util.env(opt.profile, opt.packages)
-
-
 def main(argv=None):
     argv = argv or sys.argv
 
@@ -42,19 +38,6 @@ def main(argv=None):
         help="List profiles."
     )
     parser_party.set_defaults(run=party)
-
-    # - join
-    parser_join = subparsers.add_parser("join", help="Open profiles.")
-    parser_join.add_argument(
-        "profile",
-        help="Profile name to open."
-    )
-    parser_join.add_argument(
-        "packages",
-        nargs="+",
-        help="Additional package requests."
-    )
-    parser_join.set_defaults(run=join)
 
     # Parsing args
     opt = parser.parse_args(argv[1:])
