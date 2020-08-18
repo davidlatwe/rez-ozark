@@ -83,11 +83,11 @@ packages = [
         "name": "rezcore",
         "install": {
             "args": ["rez-build", "--install"],
-            "cwd": os.path.join(root, "_base", "rezcore"),
+            "cwd": os.path.join(root, "rezcore"),
         },
         "release": {
             "args": ["rez-release"],
-            "cwd": os.path.join(root, "_base", "rezcore"),
+            "cwd": os.path.join(root, "rezcore"),
         },
     },
 
