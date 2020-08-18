@@ -5,6 +5,7 @@ def mock(appname):
 
     app = QtWidgets.QApplication(sys.argv)
     button = QtWidgets.QPushButton(appname)
+    button.clicked.connect(lambda: print("This is " + appname))
     button.show()
     app.exec_()
 
