@@ -14,6 +14,7 @@ tools = [
 
 requires = [
     "rez",
+    "identicon",
     "pymongo",
     "montydb",
     "allzpark",

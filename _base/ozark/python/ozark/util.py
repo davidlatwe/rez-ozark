@@ -1,6 +1,7 @@
 
 import os
 import shutil
+import identicon
 import subprocess
 from rez.config import config as config_
 
@@ -8,12 +9,24 @@ from rez.config import config as config_
 def init():
     ozark_root = os.environ["REZ_OZARK_ROOT"]
     template = os.path.join(ozark_root, ".resources", "package_template.py")
-    dst = os.path.join(os.getcwd(), "package.py")
-    if os.path.exists(dst):
+    package_py = os.path.join(os.getcwd(), "package.py")
+    if os.path.exists(package_py):
         print("package.py already exists in current directory.")
         return
 
-    shutil.copy(template, dst)
+    profile_name = os.path.basename(os.getcwd())
+
+    with open(template, "r") as plate:
+        lines = plate.read() % (profile_name, profile_name)
+    with open(package_py, "w") as pkg_file:
+        pkg_file.write(lines)
+
+    res_dir = os.path.join(os.getcwd(), "resources")
+    os.makedirs(res_dir)
+
+    # generate identicon for profile
+    icon_path = identicon.generate(profile_name)
+    shutil.move(icon_path, os.path.join(res_dir, "icon.png"))
 
 
 def ls(location=None):

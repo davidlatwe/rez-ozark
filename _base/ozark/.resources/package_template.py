@@ -1,7 +1,15 @@
 
-name = "{profile_name}"
+import os
 
+
+name = "%s"
 version = "0.1.0"
+
+# Variables unrelated to Rez are typically prefixed with `_`
+_data = {
+    "label": "%s",
+    "icon": "{root}/resources/icon.png"
+}
 
 authors = [
     # profile owners
@@ -19,7 +27,7 @@ positions = [
 
 requires = [
     # List out profile required packages,
-    # e.g. "maya-2020", "python-3", "pycharm", ...
+    # e.g. "~maya-2020", "~python-3", "~pycharm", ...
 ]
 
 
@@ -31,5 +39,6 @@ def commands():
 """
 !!! Do not change following attributes !!!
 """
+filesystem_root = os.getcwd()  # for mongozark repository
 build_command = False
 no_variants = True
