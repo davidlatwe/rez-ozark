@@ -1,5 +1,4 @@
 
-from rez.vendor.version.requirement import VersionedObject
 from rez.package_repository import PackageRepository
 from rez.package_resources import (
     PackageFamilyResource,
@@ -172,8 +171,29 @@ class MongozarkPackageResource(PackageResourceHelper):
     schema = package_pod_schema
 
     def _uri(self):
-        obj = VersionedObject.construct(self.name, self.version)
-        return "mongozark@%s->%s" % (self.location, str(obj))
+        # (NOTE) Prefix uri with filesystem root path so that we can still
+        #   have path like "{root}/sub-dir" in package attribute and able
+        #   to find resources that can only be stored in filesystem. For
+        #   example, profile icon that can be shown on Allzpark.
+        #
+        #   The `filesystem_root` is an attribute that can be saved in a
+        #   package.py file and able to be written into database.
+        #
+        #   Currently, it can be set like this:
+        #   ```
+        #   # in package.py
+        #   filesystem_root = os.getcwd()
+        #   ```
+        #   Also, this might be hacky to get package attribute from `_data`,
+        #   please let me know if there is a better way.
+        #
+        source = self._data.get("filesystem_root", "")
+        uri = "~mongozark@%s" % self.location
+        return os.path.join(source, uri)
+
+    @property
+    def base(self):
+        return self._data.get("filesystem_root")
 
     @cached_property
     def parent(self):
@@ -206,10 +226,6 @@ class MongozarkPackageResource(PackageResourceHelper):
 
             yield variant
 
-    @property
-    def base(self):
-        return None  # mongodb resource doesn't have 'base' path
-
     def _load(self):
         data = self._repository.collection.find_one(
             {
@@ -238,6 +254,10 @@ class MongozarkVariantResource(VariantResourceHelper):
             name=self.name,
             version=self.get("version"))
         return package
+
+    @cached_property
+    def root(self):
+        return self.parent._data.get("filesystem_root")
 
 
 def is_montydb_uri(uri):
