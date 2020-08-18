@@ -18,6 +18,8 @@ call python -u -m mockapp {tool}
 
 
 def build(source_path, build_path, install_path, targets=None):
+    import identicon
+
     targets = targets or []
 
     if "install" in targets:
@@ -55,6 +57,15 @@ def build(source_path, build_path, install_path, targets=None):
         # chmod +x
         st = os.stat(bin_path)
         os.chmod(bin_path, st.st_mode | stat.S_IEXEC)
+
+    res_dir = os.path.join(dst, "resources")
+    os.makedirs(res_dir)
+
+    # generate identicon from app name-version
+    ident = "%s-%s" % (os.environ["REZ_BUILD_PROJECT_NAME"],
+                       os.environ["REZ_BUILD_PROJECT_VERSION"])
+    icon_path = identicon.generate(ident)
+    shutil.move(icon_path, os.path.join(res_dir, "icon.png"))
 
 
 if __name__ == "__main__":

@@ -154,6 +154,19 @@ packages = [
     },
 
     {
+        "name": "Pillow",
+        "install": {
+            "args": ["rez-env", "pipz", "--", "install", "Pillow", "--yes"],
+            "cwd": root,
+        },
+        "release": {
+            "args": ["rez-env", "pipz", "--", "install", "Pillow", "--yes",
+                     "--release"],
+            "cwd": root,
+        },
+    },
+
+    {
         "name": "rezgui",
         "install": {
             "args": ["rez-build", "--install"],
@@ -216,6 +229,18 @@ packages = [
             "args": ["rez-env", "pipz", "--", "install", "montydb", "--yes",
                      "--release"],
             "cwd": root,
+        },
+    },
+
+    {
+        "name": "identicon",
+        "install": {
+            "args": ["rez-build", "--install"],
+            "cwd": os.path.join(root, "identicon"),
+        },
+        "release": {
+            "args": ["rez-release"],
+            "cwd": os.path.join(root, "identicon"),
         },
     },
 

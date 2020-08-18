@@ -85,6 +85,17 @@ def build_command():
         return command
 
 
+private_build_requires = [
+    "identicon",
+]
+
+
+# This will be picked up by Allzpark
+_data = {
+    "icon": "{root}/resources/icon.png"
+}
+
+
 def commands():
     env = globals()["env"]
 
