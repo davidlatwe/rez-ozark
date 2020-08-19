@@ -15,7 +15,7 @@ from rez.exceptions import (
 )
 from rez.utils.formatting import is_valid_package_name
 from rez.utils.resources import cached_property
-from rez.utils.logging_ import print_debug, print_warning
+from rez.utils.logging_ import print_warning
 from rez.config import config
 from rez.backport.lru_cache import lru_cache
 from rez.vendor.six import six
@@ -269,7 +269,7 @@ def is_mongodb_reachable(client):
     try:
         client.server_info()
     except pymongo_err.ServerSelectionTimeoutError as e:
-        print_debug(e)
+        print_warning(e)
         return False
     else:
         return True
@@ -331,33 +331,25 @@ class MongozarkPackageRepository(PackageRepository):
     def _uid(self):
         return self.name(), self.location
 
-    def _warn_no_connection(self):
-        print_warning("%s is not connected to [%s]." %
-                      (self.location, self.database_uri))
-
     def get_package_family(self, name):
         if not self.is_connected:
-            self._warn_no_connection()
             return
         return self.get_family(name)
 
     def iter_package_families(self):
         if not self.is_connected:
-            self._warn_no_connection()
             return
         for family in self.get_families():
             yield family
 
     def iter_packages(self, package_family_resource):
         if not self.is_connected:
-            self._warn_no_connection()
             return
         for package in self.get_packages(package_family_resource):
             yield package
 
     def iter_variants(self, package_resource):
         if not self.is_connected:
-            self._warn_no_connection()
             return
         for variant in self.get_variants(package_resource):
             yield variant
