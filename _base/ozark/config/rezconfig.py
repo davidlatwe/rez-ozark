@@ -1,10 +1,11 @@
 
 import os
+from os.path import expanduser
 ModifyList = globals()["ModifyList"]
 
 # Location: install
 __install_uri = os.getenv("OZARK_MONGODB_INSTALL",
-                          "montydb://" + os.path.expanduser("~/ozark-data"))
+                          "montydb://" + expanduser("~/rez/ozark-data"))
 __install_loc = os.getenv("OZARK_LOCATION_INSTALL",
                           "mongozark@install.rez.ozark")
 
@@ -36,6 +37,13 @@ plugins = {
             # (NOTE) Rez config do not save custom attributes, so we save
             #   our profile packages path here, with order preserved.
             "profiles": __profiles_path,
+
+            # database settings
+            "mongodb": {
+                "select_timeout": int(
+                    os.getenv("OZARK_MONGODB_SELECT_TIMEOUT", "3000")  # 3 sec
+                ),
+            },
         },
     }
 }

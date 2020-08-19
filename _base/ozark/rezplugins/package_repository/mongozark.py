@@ -15,6 +15,7 @@ from rez.exceptions import (
 )
 from rez.utils.formatting import is_valid_package_name
 from rez.utils.resources import cached_property
+from rez.utils.logging_ import print_debug, print_warning
 from rez.config import config
 from rez.backport.lru_cache import lru_cache
 from rez.vendor.six import six
@@ -29,7 +30,7 @@ import socket
 import getpass
 import datetime
 
-from pymongo import MongoClient
+from pymongo import MongoClient, errors as pymongo_err
 from montydb import MontyClient, configure as monty_config
 
 basestring = six.string_types[0]
@@ -264,6 +265,16 @@ def is_montydb_uri(uri):
     return uri.startswith(monty_config.URI_SCHEME_PREFIX)
 
 
+def is_mongodb_reachable(client):
+    try:
+        client.server_info()
+    except pymongo_err.ServerSelectionTimeoutError as e:
+        print_debug(e)
+        return False
+    else:
+        return True
+
+
 class MongozarkPackageRepository(PackageRepository):
     """
     """
@@ -289,13 +300,21 @@ class MongozarkPackageRepository(PackageRepository):
                 "URI key '%s' not found in "
                 "'config.plugins.package_repository.mongozark.uri'." % uri_key)
 
+        is_connected = True
+
         if is_montydb_uri(uri):
             client = MontyClient(uri)
         else:
-            client = MongoClient(uri)
+            select_timeout = settings.mongodb.select_timeout
+            client = MongoClient(uri, serverSelectionTimeoutMS=select_timeout)
+            is_connected = is_mongodb_reachable(client)
 
         db = client[database]
-        self.collection = db[collection]
+        collection = db[collection]
+
+        self.database_uri = uri
+        self.is_connected = is_connected
+        self.collection = collection
 
         super(MongozarkPackageRepository, self).__init__(location,
                                                          resource_pool)
@@ -312,18 +331,34 @@ class MongozarkPackageRepository(PackageRepository):
     def _uid(self):
         return self.name(), self.location
 
+    def _warn_no_connection(self):
+        print_warning("%s is not connected to [%s]." %
+                      (self.location, self.database_uri))
+
     def get_package_family(self, name):
+        if not self.is_connected:
+            self._warn_no_connection()
+            return
         return self.get_family(name)
 
     def iter_package_families(self):
+        if not self.is_connected:
+            self._warn_no_connection()
+            return
         for family in self.get_families():
             yield family
 
     def iter_packages(self, package_family_resource):
+        if not self.is_connected:
+            self._warn_no_connection()
+            return
         for package in self.get_packages(package_family_resource):
             yield package
 
     def iter_variants(self, package_resource):
+        if not self.is_connected:
+            self._warn_no_connection()
+            return
         for variant in self.get_variants(package_resource):
             yield variant
 
@@ -341,6 +376,10 @@ class MongozarkPackageRepository(PackageRepository):
         return package_family_resource.get_last_release_time()
 
     def install_variant(self, variant_resource, dry_run=False, overrides=None):
+        if not self.is_connected:
+            raise PackageRepositoryError("%s is not connected to [%s]." %
+                                         (self.location, self.database_uri))
+
         overrides = overrides or {}
 
         # Name and version overrides are a special case - they change the
