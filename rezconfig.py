@@ -35,6 +35,11 @@ package_definition_python_path = os.path.join(
 )
 
 
+allow_unversioned_packages = False
+# If True, unversioned packages are allowed.
+# Solve times are slightly better if this value is False.
+
+
 package_preprocess_mode = "before"
 # "before": Package's preprocess is executed before the global preprocess
 # "after": Package's preprocess is executed after the global preprocess
