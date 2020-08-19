@@ -520,6 +520,11 @@ class MongozarkPackageRepository(PackageRepository):
         # format version is always set
         package_data["format_version"] = 2  # Late binding functions added
 
+        # Stop if package is unversioned and config does not allow that
+        if (not package_data["version"]
+                and not config.allow_unversioned_packages):
+            raise PackageMetadataError("Unversioned package is not allowed.")
+
         # Upsert to database
         version_string = str(package_data["version"])
 
