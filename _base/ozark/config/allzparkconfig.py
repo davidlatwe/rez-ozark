@@ -47,3 +47,13 @@ def applications():
     """
 
     return []
+
+
+def style_loader():
+    try:
+        from ozark import style
+    except ImportError:
+        print("Failed to load Ozark CSS stylesheet.")
+        return
+
+    return style.load_stylesheet()
