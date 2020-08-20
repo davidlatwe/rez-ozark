@@ -23,11 +23,11 @@ packages = [
         "name": "default",
         "install": {
             "args": ["rez-build", "--install"],
-            "cwd": os.path.join(root, "_base", "default"),
+            "cwd": os.path.join(root, "default"),
         },
         "release": {
             "args": ["rez-release"],
-            "cwd": os.path.join(root, "_base", "default"),
+            "cwd": os.path.join(root, "default"),
         },
     },
 
@@ -260,11 +260,11 @@ packages = [
         "name": "ozark",
         "install": {
             "args": ["rez-build", "--install"],
-            "cwd": os.path.join(root, "_base", "ozark"),
+            "cwd": os.path.join(root, "ozark"),
         },
         "release": {
             "args": ["rez-release"],
-            "cwd": os.path.join(root, "_base", "ozark"),
+            "cwd": os.path.join(root, "ozark"),
         },
     },
 
@@ -272,11 +272,11 @@ packages = [
         "name": "house",
         "install": {
             "args": ["rez-build", "--install"],
-            "cwd": os.path.join(root, "_base", "house"),
+            "cwd": os.path.join(root, "house"),
         },
         "release": {
             "args": ["rez-release"],
-            "cwd": os.path.join(root, "_base", "house"),
+            "cwd": os.path.join(root, "house"),
         },
     },
 
