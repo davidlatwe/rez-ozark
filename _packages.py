@@ -92,6 +92,18 @@ packages = [
     },
 
     {
+        "name": "rezutil",
+        "install": {
+            "args": ["rez-build", "--install"],
+            "cwd": os.path.join(root, "rezutil"),
+        },
+        "release": {
+            "args": ["rez-release"],
+            "cwd": os.path.join(root, "rezutil"),
+        },
+    },
+
+    {
         "name": "gitz",
         "install": {
             "args": ["rez-build", "--install"],
