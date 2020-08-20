@@ -221,3 +221,4 @@ fabric.properties
 /.idea/codeStyles/codeStyleConfig.xml
 
 .DS_Store
+.idea/
