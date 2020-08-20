@@ -2,7 +2,7 @@
 
 name = "identicon"
 
-version = "0"
+version = "1.0.0"
 
 authors = [
     "Usman Mahmood",

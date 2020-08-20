@@ -6,7 +6,7 @@ name = "house"
 
 uuid = "studio.house"
 
-version = "0.1.0"
+version = "1.0.0"
 
 description = "Studio/site-wide house production environment"
 

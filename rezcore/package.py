@@ -3,7 +3,7 @@ name = "rezcore"
 
 description = "Find and enter Rez's virtual env, use with caution."
 
-version = "1"
+version = "1.0.0"
 
 build_command = False
 
