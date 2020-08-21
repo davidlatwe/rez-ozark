@@ -37,6 +37,7 @@ def main(argv=None):
         action="store_true",
         help="List profiles."
     )
+    # (TODO) Add an option to list out current registered locations
     parser_party.set_defaults(run=party)
 
     # Parsing args
