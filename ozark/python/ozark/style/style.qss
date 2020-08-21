@@ -40,13 +40,6 @@ QWidget
 }
 
 
-QWidget:item:hover
-{
-    background-color: #78879b;
-    color: black;
-}
-
-
 QWidget:item:selected
 {
     background-color: #40576D;
@@ -986,22 +979,22 @@ QTabBar::tab:right:!selected:hover {
 
 QTabBar QToolButton::right-arrow:enabled {
      image: url(:/qss_icons/rc/right_arrow.png);
- }
+}
 
 
- QTabBar QToolButton::left-arrow:enabled {
+QTabBar QToolButton::left-arrow:enabled {
      image: url(:/qss_icons/rc/left_arrow.png);
- }
+}
 
 
 QTabBar QToolButton::right-arrow:disabled {
      image: url(:/qss_icons/rc/right_arrow_disabled.png);
- }
+}
 
 
- QTabBar QToolButton::left-arrow:disabled {
+QTabBar QToolButton::left-arrow:disabled {
      image: url(:/qss_icons/rc/left_arrow_disabled.png);
- }
+}
 
 
 
@@ -1082,14 +1075,14 @@ QTreeView::branch:open:has-children:has-siblings:hover  {
     }
 
 
-QListView::item:!selected:hover, QListView::item:!selected:hover, QTreeView::item:!selected:hover  {
+QListView::item:!selected:hover, QTreeView::item:!selected:hover  {
     background: rgba(0, 0, 0, 0);
     outline: 0;
     color: #FFFFFF
 }
 
 
-QListView::item:selected:hover, QListView::item:selected:hover, QTreeView::item:selected:hover  {
+QListView::item:selected:hover, QTreeView::item:selected:hover  {
     background: #40576D;
     color: #FFFFFF;
 }
@@ -1229,10 +1222,10 @@ QTableView, QHeaderView
     border-radius: 0px;
 }
 
-QTableView::item:pressed, QListView::item:pressed, QTreeView::item:pressed  {
+/* QTableView::item:pressed, QListView::item:pressed, QTreeView::item:pressed  {
     background: #78879b;
     color: #FFFFFF;
-}
+} */
 
 
 QTableView::item:selected:active, QTreeView::item:selected:active, QListView::item:selected:active  {
@@ -1240,19 +1233,24 @@ QTableView::item:selected:active, QTreeView::item:selected:active, QListView::it
     color: #FFFFFF;
 }
 
-QTableView::item:selected:!focus, QTreeView::item:selected:!focus, QListView::item:selected:!focus {
+QTableView::item:selected:active, QTableView::item:selected:!focus {
+    background: #40576D;
+    color: #FFFFFF;
+}
+
+/* QTableView::item:selected:!focus, QTreeView::item:selected:!focus, QListView::item:selected:!focus {
     background: #324354;
-}
+} */
 
-QTableView::item:hover, QTreeView::item:hover, QListView::item:hover  {
+/* QTableView::item:hover, QTreeView::item:hover, QListView::item:hover  {
     background: #4f6a86;
     color: #FFFFFF;
-}
+} */
 
-QTableView::item:selected:hover, QTreeView::item:selected:hover, QListView::item:selected:hover  {
+/* QTableView::item:selected:hover, QTreeView::item:selected:hover, QListView::item:selected:hover  {
     background: #4f6a86;
     color: #FFFFFF;
-}
+} */
 
 
 
@@ -1499,6 +1497,7 @@ FullCommand QComboBox::drop-down {
 FullCommand QComboBox::down-arrow {
     image: none;
 }
+
 FullCommand QComboBox::down-arrow:on, FullCommand QComboBox::down-arrow:hover,
 FullCommand QComboBox::down-arrow:focus
 {
