@@ -2,6 +2,8 @@
 from rez.config import config as config_
 from rez.packages import iter_package_families
 
+import getpass
+
 
 __mongozark = config_.plugins.package_repository.mongozark
 
@@ -14,28 +16,23 @@ def profiles():
     Can also be a variable of type tuple or list
 
     """
-    # view: super set of profile `features` attributes
+    # view: super set of profile `views` attributes
     #   REZ_VIEW=show.ongoing;dev.pipeline;
 
-    # role: super set of profile `positions` attributes
-    #   REZ_ROLE=artist;technical;developer;admin
+    # User name based filtering
+    # But could be department name or anything else
+    user_roles = {getpass.getuser()}
 
-    # produzer:
-    #   Write profile package to MongoDB (or MontyDB for test)
-    #   with `features`, `positions` attributes in here when profile
-    #   package being built.
-    #
-    #   Read-only MongoDB rez repo plugin for allzpark, rez-env, rez-search...
-    #   It will be version less. (mongoread)
+    accessible_profiles = list()
+    for pkg_family in iter_package_families(paths=__mongozark.profiles):
 
-    # rolez (uzer)
+        latest_version = next(pkg_family.iter_packages())
+        required_roles = set(getattr(latest_version, "roles", []))
 
-    # rez-produzed: git repo for profile packages, if you need git.
+        if required_roles.intersection(user_roles):
+            accessible_profiles.append(pkg_family.name)
 
-    return [
-        pkg_family.name
-        for pkg_family in iter_package_families(paths=__mongozark.profiles)
-    ]
+    return accessible_profiles
 
 
 def applications():

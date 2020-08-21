@@ -40,12 +40,21 @@ class PackageDefinitionFileMissing(PackageMetadataError):
     pass
 
 
-def package_document(name, version, package_dict):
+def package_family_document(name, date):
     return {
-        "name": name,
+        "type": "family",
+        "_id": name,     # family `name` should be unique
+        "date": date,
+    }
+
+
+def package_document(name, date, version, package_dict):
+    return {
+        "type": "package",
+        "family": name,
         "version": version,
         "package": package_dict,
-        "date": datetime.datetime.now(),
+        "date": date,
         "hostname": socket.gethostname(),
         "user": getpass.getuser(),
     }
@@ -140,9 +149,8 @@ class MongozarkPackageFamilyResource(PackageFamilyResource):
 
     def get_last_release_time(self):
         data = self._repository.collection.find_one(
-            {"name": self.name},
+            {"type": "family", "_id": self.name},
             projection={"date": True},
-            sort=[("date", -1)],
         )
 
         if data is None or "date" not in data:
@@ -152,8 +160,9 @@ class MongozarkPackageFamilyResource(PackageFamilyResource):
 
     def iter_packages(self):
         for data in self._repository.collection.find(
-            {"name": self.name},
+            {"type": "package", "family": self.name},
             projection={"version": True},
+            sort=[("version", -1)],  # latest first
         ):
 
             package = self._repository.get_resource(
@@ -230,7 +239,8 @@ class MongozarkPackageResource(PackageResourceHelper):
     def _load(self):
         data = self._repository.collection.find_one(
             {
-                "name": self.name,
+                "type": "package",
+                "family": self.name,
                 "version": self.get("version"),
             },
             projection={"package": True}
@@ -428,7 +438,7 @@ class MongozarkPackageRepository(PackageRepository):
     def _get_families(self):
         families = []
 
-        for name in self.collection.distinct("name"):
+        for name in self.collection.distinct("_id", {"type": "family"}):
             family = self.get_resource(
                 MongozarkPackageFamilyResource.key,
                 location=self.location,
@@ -441,7 +451,8 @@ class MongozarkPackageRepository(PackageRepository):
     def _get_family(self, name):
         is_valid_package_name(name, raise_error=True)
 
-        pkg = self.collection.find_one({"name": name}, projection={"_id": True})
+        pkg = self.collection.find_one({"type": "family", "_id": name},
+                                       projection={"_id": True})
         if pkg is not None:
 
             family = self.get_resource(
@@ -526,13 +537,24 @@ class MongozarkPackageRepository(PackageRepository):
             raise PackageMetadataError("Unversioned package is not allowed.")
 
         # Upsert to database
+        date = datetime.datetime.now()
+        family_name = package_data["name"]
         version_string = str(package_data["version"])
 
-        document = package_document(package_data["name"],
+        document = package_family_document(family_name, date)
+        filter_ = {
+            "type": "family",
+            "_id": family_name,
+        }
+        self.collection.update_one(filter_, {"$set": document}, upsert=True)
+
+        document = package_document(family_name,
+                                    date,
                                     version_string,
                                     package_to_dict(package_data))
         filter_ = {
-            "name": package_data["name"],
+            "type": "package",
+            "family": family_name,
             "version": version_string,
         }
         self.collection.update_one(filter_, {"$set": document}, upsert=True)

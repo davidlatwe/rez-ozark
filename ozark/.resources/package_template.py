@@ -15,14 +15,15 @@ authors = [
     # profile owners
 ]
 
-features = [
+views = [
     # List out features of this profile,
     # e.g. "show.ongoing", "dev.pipeline", ...
 ]
 
-positions = [
+roles = [
     # List out which role can have access to this profile,
     # e.g. "artist", "technical", "developer", "admin", ...
+    # or simple username.
 ]
 
 requires = [
