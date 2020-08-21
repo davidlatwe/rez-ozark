@@ -148,18 +148,18 @@ class MongozarkPackageFamilyResource(PackageFamilyResource):
         return "%s@%s" % (self.name, self.location)
 
     def get_last_release_time(self):
-        data = self._repository.collection.find_one(
+        document = self._repository.collection.find_one(
             {"type": "family", "_id": self.name},
             projection={"date": True},
         )
 
-        if data is None or "date" not in data:
+        if document is None or "date" not in document:
             return 0
         else:
-            return time.mktime(data["date"].timetuple())
+            return time.mktime(document["date"].timetuple())
 
     def iter_packages(self):
-        for data in self._repository.collection.find(
+        for document in self._repository.collection.find(
             {"type": "package", "family": self.name},
             projection={"version": True},
             sort=[("version", -1)],  # latest first
@@ -169,7 +169,7 @@ class MongozarkPackageFamilyResource(PackageFamilyResource):
                 MongozarkPackageResource.key,
                 location=self.location,
                 name=self.name,
-                version=data["version"])
+                version=document["version"])
 
             yield package
 
@@ -237,7 +237,7 @@ class MongozarkPackageResource(PackageResourceHelper):
             yield variant
 
     def _load(self):
-        data = self._repository.collection.find_one(
+        document = self._repository.collection.find_one(
             {
                 "type": "package",
                 "family": self.name,
@@ -246,11 +246,11 @@ class MongozarkPackageResource(PackageResourceHelper):
             projection={"package": True}
         )
 
-        if data is None:
+        if document is None:
             raise PackageDefinitionFileMissing(
                 "Missing package definition file: %r" % self)
 
-        return package_from_dict(data["package"])
+        return package_from_dict(document["package"])
 
 
 class MongozarkVariantResource(VariantResourceHelper):
@@ -451,9 +451,9 @@ class MongozarkPackageRepository(PackageRepository):
     def _get_family(self, name):
         is_valid_package_name(name, raise_error=True)
 
-        pkg = self.collection.find_one({"type": "family", "_id": name},
-                                       projection={"_id": True})
-        if pkg is not None:
+        document = self.collection.find_one({"type": "family", "_id": name},
+                                            projection={"_id": True})
+        if document is not None:
 
             family = self.get_resource(
                 MongozarkPackageFamilyResource.key,
