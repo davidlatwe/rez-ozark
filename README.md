@@ -1,8 +1,13 @@
 
+## Ozark
+
+A production/development environment setup powered by Rez, Allzpark and MongoDB.
+
+
 ### Get
 
 ```
-git clone --recurse-submodules https://github.com/davidlatwe/rez-packages.git
+git clone --recurse-submodules https://github.com/davidlatwe/rez-ozark.git
 ```
 
 ### Prerequisite
@@ -46,3 +51,48 @@ optional arguments:
 
 
 ```
+
+### Mock Apps
+
+To quickly get started, you can use this tool to mock any apps in any version you want.
+
+```bash
+$ python mocks.py --all
+```
+
+The output app package is just a Qt app that have a button to press. But you can use them to quickly compose profile for demo.
+
+
+## Usage
+
+Ozark ships with a MongoDB/MontyDB based Rez package repository plugin which used to store Allzpark profile packages, you may see `ozark/config/rezconfig.py` for configuration details.
+
+* Enter Ozark
+
+    ```bash
+    $ rez-env ozark
+    ```
+
+* Init profile at current working directory
+
+    ```bash
+    $ party --init
+    ```
+
+* Enable profile to MongoDB
+
+    ```bash
+    $ party --at release
+    ```
+    
+* Or MontyDB
+    
+    ```bash
+    $ party --at install
+    ```
+
+* List out all profiles
+
+    ```bash
+    $ party --list
+    ```
