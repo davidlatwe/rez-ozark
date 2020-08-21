@@ -3,7 +3,7 @@ import os
 
 
 name = "%s"
-version = "0.1.0"
+version = "1.0.0"
 
 # Variables unrelated to Rez are typically prefixed with `_`
 _data = {
