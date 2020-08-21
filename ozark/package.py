@@ -9,7 +9,6 @@ authors = ["davidlatwe"]
 
 tools = [
     "party",
-    "join",
 ]
 
 requires = [
