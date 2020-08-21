@@ -20,7 +20,8 @@ def profiles():
     #   REZ_VIEW=show.ongoing;dev.pipeline;
 
     # User name based filtering
-    # But could be department name or anything else
+    # (TODO) But could be department name or anything else,
+    #   and implementing roles as packages.
     user_roles = {getpass.getuser()}
 
     accessible_profiles = list()
