@@ -3,6 +3,8 @@
 
 A production/development environment setup powered by Rez, Allzpark and MongoDB.
 
+🚧 NOT PRODUCTION READY 🚧 
+
 
 ### Get
 
