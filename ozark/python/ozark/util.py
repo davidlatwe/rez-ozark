@@ -73,6 +73,7 @@ def build(location=None):
             "rez-build",
         ]
 
+    os.environ["REZ_OZARK_BUILD"] = "1"
     subprocess.check_call(args)
 
 

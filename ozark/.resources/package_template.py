@@ -42,4 +42,5 @@ def commands():
 """
 filesystem_root = os.getcwd()  # for mongozark repository
 build_command = False
+ozark_profile = True
 no_variants = True

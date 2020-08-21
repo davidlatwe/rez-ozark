@@ -48,6 +48,16 @@ package_preprocess_mode = "before"
 
 def package_preprocess_function(this, data):
     from rez.utils.formatting import PackageRequest
+    from rez.exceptions import InvalidPackageError
+
+    # Ozark profile
+    # Must be built with ozark profile build tool
+    #
+
+    ozark_profile = getattr(this, "ozark_profile", False)
+    if ozark_profile and not bool(os.getenv("REZ_OZARK_BUILD")):
+        raise InvalidPackageError("This package is an Ozark profile, please "
+                                  "use Ozark profile build tool instead.")
 
     # Must have variant
     #   Unless explicitly set `no_variant=True`
