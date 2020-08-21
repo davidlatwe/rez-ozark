@@ -1,9 +1,12 @@
 
 ## Ozark
 
-A production/development environment setup powered by Rez, Allzpark and MongoDB.
+A production/development environment setup powered by [Rez](https://github.com/nerdvegas/rez), [Allzpark](https://github.com/mottosso/allzpark) and MongoDB.
 
 🚧 NOT PRODUCTION READY 🚧 
+
+
+![image](https://user-images.githubusercontent.com/3357009/90910495-fb4a2380-e409-11ea-9e92-0d004aeddd4c.png)
 
 
 ### Get
@@ -67,7 +70,7 @@ The output app package is just a Qt app that have a button to press. But you can
 
 ## Usage
 
-Ozark ships with a MongoDB/MontyDB based Rez package repository plugin which used to store Allzpark profile packages, you may see `ozark/config/rezconfig.py` for configuration details.
+Ozark ships with a MongoDB/[MontyDB](https://github.com/davidlatwe/montydb) based Rez package repository plugin which used to store Allzpark profile packages, you may see `ozark/config/rezconfig.py` for configuration details.
 
 * Enter Ozark
 
@@ -87,7 +90,7 @@ Ozark ships with a MongoDB/MontyDB based Rez package repository plugin which use
     $ party --at release
     ```
     
-* Or MontyDB
+* Or [MontyDB](https://github.com/davidlatwe/montydb)
     
     ```bash
     $ party --at install
