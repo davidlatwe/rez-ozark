@@ -62,7 +62,7 @@ packages = [
             "cwd": os.path.join(root, "miniconda", "python"),
         },
         "release": {
-            "args": ["rez-release", "--version=2.7"],
+            "args": ["rez-release", "--version=2.7", "--no-latest"],
             "cwd": os.path.join(root, "miniconda", "python"),
         },
     },
