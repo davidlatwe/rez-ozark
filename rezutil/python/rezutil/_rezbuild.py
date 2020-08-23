@@ -52,18 +52,17 @@ def retry(func):
         # each retry differently
         kwargs["attempt"] = 0
 
-        for retry in range(RETRY):
+        for retry_ in range(RETRY):
             try:
                 return func(*args, **kwargs)
+
             except Exception:
                 kwargs["attempt"] += 1
-                tell("Retrying (%d/%d).." % (retry + 1, RETRY), 3)
+                tell("Retrying (%d/%d).." % (retry_ + 1, RETRY), 3)
 
                 # Wait increasingly longer
-                time.sleep(0.5 * (retry or 0.2))
+                time.sleep(0.5 * (retry_ or 0.2))
 
-            else:
-                break
         else:
             import traceback
             traceback.print_exc()
