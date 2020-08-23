@@ -156,7 +156,7 @@ def clean(root, attempt=0):
 
 @retry
 def copy_with_retry(src, dst, attempt=0):
-    shutil.copyfile(src, dst)
+    shutil.copy(src, dst)
 
 
 def build(source_path, build_path, install_path=None, targets=None):
