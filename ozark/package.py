@@ -13,6 +13,7 @@ tools = [
 
 requires = [
     "rez",
+    "pyidle",
     "identicon",
     "pymongo",
     "montydb",
