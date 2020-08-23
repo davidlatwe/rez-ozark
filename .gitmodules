@@ -17,6 +17,6 @@
 [submodule "allzparksrc"]
 	path = allzparksrc
 	url = https://github.com/davidlatwe/allzpark.git
-[submodule "rez-localz"]
-	path = rez-localz
+[submodule "rezlocalz"]
+	path = rezlocalz
 	url = https://github.com/davidlatwe/rez-localz.git
