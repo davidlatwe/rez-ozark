@@ -214,34 +214,6 @@ packages = [
         },
     },
 
-    # (NOTE) Disable 'rich' for now until rez-pipz#30 gets resolved
-    # {
-    #     "name": "rich",
-    #     "install": {
-    #         "args": ["rez-env", "pipz", "--", "install", "rich", "--yes"],
-    #         "cwd": root,
-    #     },
-    #     "release": {
-    #         "args": ["rez-env", "pipz", "--", "install", "rich", "--yes",
-    #                  "--release"],
-    #         "cwd": root,
-    #     },
-    # },
-
-    {
-        "name": "python_dotenv",
-        "install": {
-            "args": ["rez-env", "pipz", "--", "install", "python_dotenv",
-                     "--yes"],
-            "cwd": root,
-        },
-        "release": {
-            "args": ["rez-env", "pipz", "--", "install", "python_dotenv",
-                     "--yes", "--release"],
-            "cwd": root,
-        },
-    },
-
     {
         "name": "pymongo",
         "install": {
@@ -301,18 +273,6 @@ packages = [
         "release": {
             "args": ["rez-release"],
             "cwd": os.path.join(root, "ozark"),
-        },
-    },
-
-    {
-        "name": "house",
-        "install": {
-            "args": ["rez-build", "--install"],
-            "cwd": os.path.join(root, "house"),
-        },
-        "release": {
-            "args": ["rez-release"],
-            "cwd": os.path.join(root, "house"),
         },
     },
 

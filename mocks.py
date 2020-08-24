@@ -14,7 +14,6 @@ applications = [
             "2020",
         ],
         "requires": [
-            "house",
         ],
         "tools": [
             "maya",
@@ -30,7 +29,6 @@ applications = [
             "18.0.416",
         ],
         "requires": [
-            "house",
         ],
         "tools": [
             "hython",
@@ -46,7 +44,6 @@ applications = [
             "11",
         ],
         "requires": [
-            "house",
         ],
         "tools": [
             "nuke",
@@ -60,7 +57,6 @@ applications = [
             "0",
         ],
         "requires": [
-            "house",
         ],
         "tools": [
             "terminal",
@@ -74,7 +70,6 @@ applications = [
             "2.98",
         ],
         "requires": [
-            "house",
         ],
         "tools": [
             "blender",
@@ -87,6 +82,16 @@ applications = [
 def mock(name, versions, requires, tools):
     for version in versions:
 
+        if requires:
+            arg_requires = ["--requires"] + requires
+        else:
+            arg_requires = []
+
+        if tools:
+            arg_tools = ["--tools"] + tools
+        else:
+            arg_tools = []
+
         args = [
             "rez-build",
             "--install",
@@ -94,10 +99,9 @@ def mock(name, versions, requires, tools):
             name,
             "--version",
             version,
-            "--requires",
-        ] + requires + [
-            "--tools"
-        ] + tools
+        ]
+        args += arg_requires
+        args += arg_tools
 
         subprocess.check_call(args, cwd=os.path.join(root, "mockapp"))
 
