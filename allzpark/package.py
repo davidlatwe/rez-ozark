@@ -49,6 +49,7 @@ def authors():
 
 tools = [
     "allzpark",
+    "park",  # alias of `allzpark`
 ]
 
 requires = [
@@ -63,6 +64,9 @@ build_command = "python {root}/rezbuild.py {install}"
 
 def commands():
     env = globals()["env"]
+    alias = globals()["alias"]
 
     env.PATH.prepend("{root}/bin")
     env.PYTHONPATH.prepend("{root}/lib")
+
+    alias("park", "allzpark")
