@@ -104,6 +104,18 @@ packages = [
     },
 
     {
+        "name": "localz",
+        "install": {
+            "args": ["rez-build", "--install"],
+            "cwd": os.path.join(root, "localz"),
+        },
+        "release": {
+            "args": ["rez-release"],
+            "cwd": os.path.join(root, "localz"),
+        },
+    },
+
+    {
         "name": "gitz",
         "install": {
             "args": ["rez-build", "--install"],

@@ -13,6 +13,7 @@ tools = [
 
 requires = [
     "rez",
+    "localz",
     "pyidle",
     "identicon",
     "pymongo",
