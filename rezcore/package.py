@@ -17,7 +17,7 @@ def commands():
     if location is None:
         raise Exception("Rez bin dir not found.")
 
-    env.PYTHONHOME = ""
+    env.PYTHONHOME.unset()
     env.PYTHONPATH = ""
     env.PATH.prepend(location)
     env.REZ_CORE_BIN_PATH = location
