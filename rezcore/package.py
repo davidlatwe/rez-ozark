@@ -9,41 +9,15 @@ build_command = False
 
 
 def commands():
-    import os
-    import rez
-    import platform
+    from rez.system import system
     env = globals()["env"]
 
-    rez_module = rez.__path__[0]  # $REZ_USED
+    location = system.rez_bin_path
 
-    if platform.system() == "Windows":
-        bin_dir = "Scripts"
-        feature = {"activate", "rez", "pip.exe", "python.exe"}
-    else:
-        bin_dir = "bin"
-        feature = {"activate", "rez", "pip", "python"}
-
-    # Look up for bin dir
-    def up(path):
-        return os.path.dirname(path)
-
-    current = os.path.dirname(rez_module)
-    location = None
-    while True:
-        if bin_dir not in os.listdir(current):
-            parent_dir = up(current)
-            if current == parent_dir:
-                break  # reached to root
-            current = parent_dir
-        else:
-            found = os.path.join(current, bin_dir)
-            content = set(os.listdir(found))
-            if content.issuperset(feature):
-                location = found
-                break
-
-    print("Rez bin dir found: %s" % location)
+    if location is None:
+        raise Exception("Rez bin dir not found.")
 
     env.PYTHONHOME = ""
     env.PYTHONPATH = ""
     env.PATH.prepend(location)
+    env.REZ_CORE_BIN_PATH = location
