@@ -144,11 +144,11 @@ packages = [
         "name": "Qt.py",
         "install": {
             "args": ["rez-build", "--install"],
-            "cwd": os.path.join(root, "Qt.rez"),
+            "cwd": os.path.join(root, "Qt.py"),
         },
         "release": {
             "args": ["rez-release"],
-            "cwd": os.path.join(root, "Qt.rez"),
+            "cwd": os.path.join(root, "Qt.py"),
         },
     },
 
