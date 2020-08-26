@@ -29,10 +29,12 @@ for key in __OPT_RELEASE_KEYS:
         packages_path.append(os.environ[key])
 
 
-package_definition_python_path = os.path.join(
-    os.path.dirname(__file__),
-    "rezshare",
-)
+__rezshare = os.path.join(os.path.dirname(__file__), "rezshare")
+
+package_definition_python_path = os.path.join(__rezshare, "latemod")
+package_definition_build_python_paths = [
+    __rezshare,
+]
 
 
 allow_unversioned_packages = False
