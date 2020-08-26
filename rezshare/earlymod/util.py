@@ -6,16 +6,13 @@ import shutil
 from subprocess import check_output
 
 
-def git_build_clone(url,
-                    branch=None,
-                    checkout_latest_tag=False,
-                    callback=None):
+def git_build_clone(url, branch=None, checkout_latest_tag=False):
     """
     This can be called multiple times during build, and will reuse previous
     clone data if exists.
     """
-    if os.getenv("GIT_CLONED"):
-        data = json.loads(os.environ["GIT_CLONED"])
+    if os.getenv("_GIT_CLONED_DATA"):
+        data = json.loads(os.environ["_GIT_CLONED_DATA"])
         return data
 
     build_dir = os.path.join(os.getcwd(), "build")
@@ -45,10 +42,7 @@ def git_build_clone(url,
         "tag": tag,
     }
     # Avoid repeating in each variation build
-    os.environ["GIT_CLONED"] = json.dumps(data)
-
-    if callback:
-        callback(clonedir)
+    os.environ["_GIT_CLONED_DATA"] = json.dumps(data)
 
     return data
 

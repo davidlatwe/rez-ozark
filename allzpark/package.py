@@ -13,23 +13,9 @@ description = "Package-based application launcher for VFX and games " \
 @early()
 def __payload():
     from earlymod import util
-
-    def patch(clonedir):
-        import os
-        import shutil
-        # Copy into "{root}/python"
-        shutil.copytree(os.path.join(clonedir, "allzpark"),
-                        os.path.join(clonedir, "python", "allzpark"))
-        # Add into "{root}/bin"
-        for dirname in ["bin"]:
-            dir_src = os.path.join(os.getcwd(), dirname)
-            dir_dst = os.path.join(clonedir, dirname)
-            shutil.copytree(dir_src, dir_dst)
-
     return util.git_build_clone(
         url="https://github.com/davidlatwe/allzpark.git",
         branch="dev",
-        callback=patch,
     )
 
 
@@ -80,12 +66,8 @@ private_build_requires = ["rezutil-1"]
 def build_command():
     import os
     data = globals()["this"].__payload
-    sep = ",/"
-    return "python -m rezutil build {root} --ignore {ignore} --quiet".format(
-        root=data["repo"],
-        ignore=sep.join(item for item in os.listdir(data["repo"])
-                        if item not in ["python", "bin"])
-    )
+    os.environ["_GIT_CLONED_SRC_PATH"] = data["repo"]
+    return "python {root}/rezbuild.py {install}"
 
 
 def commands():
@@ -93,6 +75,6 @@ def commands():
     alias = globals()["alias"]
 
     env.PATH.prepend("{root}/bin")
-    env.PYTHONPATH.prepend("{root}/python")
+    env.PYTHONPATH.prepend("{root}/lib")
 
     alias("park", "allzpark")

@@ -6,7 +6,7 @@ import subprocess
 
 
 def build(source_path, build_path, install_path, targets=None):
-    __allzparksrc = source_path + "src"
+    __allzparksrc = os.environ["_GIT_CLONED_SRC_PATH"]
     targets = targets or []
 
     if "install" in targets:

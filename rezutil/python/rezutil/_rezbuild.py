@@ -86,9 +86,9 @@ def tell(msg, level=0):
         traceback.print_exc()
 
 
-def ignored(abspath, at_root):
+def ignored(abspath):
     """Determine whether `abspath` should be excluded"""
-    basename = ("/" if at_root else "") + os.path.basename(abspath)
+    basename = os.path.basename(abspath)
     return any(
         fnmatch.filter([basename], i)
         for i in IGNORE + _IGNORE
@@ -111,15 +111,10 @@ def makedirs(path, attempt=0):
 
 
 def generate_manifest(root):
-    excluded_dir = set()
     for base, dirs, files in os.walk(root):
-        if os.path.basename(base) in excluded_dir or ignored(base, base == root):
+        if ignored(base):
             dirs[:] = []  # Don't continue down this hierarchy
             continue
-
-        for dir in dirs:
-            if ignored(dir, base == root):
-                excluded_dir.add(dir)
 
         for fname in files:
 
@@ -130,7 +125,7 @@ def generate_manifest(root):
             abspath = os.path.join(base, fname)
             relpath = os.path.relpath(abspath, root)
 
-            if ignored(relpath, base == root):
+            if ignored(relpath):
                 continue
 
             yield relpath
@@ -220,7 +215,6 @@ def main(argv):
 
     if opts.ignore:
         IGNORE[:] = opts.ignore.split(",")
-        print(IGNORE)
 
     if opts.quiet:
         log.setLevel(logging.ERROR)
