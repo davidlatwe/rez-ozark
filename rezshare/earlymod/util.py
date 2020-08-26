@@ -70,9 +70,8 @@ def git_checkout_latest_tag(path):
 def git_authors(path):
     name_list = check_output(
         ["git", "shortlog", "-sn"],
-        universal_newlines=True,
         cwd=path
-    )
+    ).decode()
     return [
         n.strip().split("\t", 1)[-1]
         for n in name_list.strip().split("\n")
