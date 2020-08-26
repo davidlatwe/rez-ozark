@@ -56,18 +56,6 @@ packages = [
     },
 
     {
-        "name": "pyidle",
-        "install": {
-            "args": ["rez-build", "--install"],
-            "cwd": os.path.join(root, "pyidle"),
-        },
-        "release": {
-            "args": ["rez-release"],
-            "cwd": os.path.join(root, "pyidle"),
-        },
-    },
-
-    {
         "name": "rez",
         "install": {
             "args": ["rez-build", "--install"],
@@ -100,6 +88,18 @@ packages = [
         "release": {
             "args": ["rez-release"],
             "cwd": os.path.join(root, "rezutil"),
+        },
+    },
+
+    {
+        "name": "pyidle",
+        "install": {
+            "args": ["rez-build", "--install"],
+            "cwd": os.path.join(root, "pyidle"),
+        },
+        "release": {
+            "args": ["rez-release"],
+            "cwd": os.path.join(root, "pyidle"),
         },
     },
 
