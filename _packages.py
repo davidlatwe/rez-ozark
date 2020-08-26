@@ -35,11 +35,11 @@ packages = [
         "name": "miniconda",
         "install": {
             "args": ["rez-build", "--install"],
-            "cwd": os.path.join(root, "miniconda", "miniconda"),
+            "cwd": os.path.join(root, "miniconda"),
         },
         "release": {
             "args": ["rez-release"],
-            "cwd": os.path.join(root, "miniconda", "miniconda"),
+            "cwd": os.path.join(root, "miniconda"),
         },
     },
 
@@ -47,11 +47,11 @@ packages = [
         "name": "python-3.6",
         "install": {
             "args": ["rez-build", "--install", "--version=3.6"],
-            "cwd": os.path.join(root, "miniconda", "python"),
+            "cwd": os.path.join(root, "python"),
         },
         "release": {
             "args": ["rez-release", "--version=3.6"],
-            "cwd": os.path.join(root, "miniconda", "python"),
+            "cwd": os.path.join(root, "python"),
         },
     },
 
