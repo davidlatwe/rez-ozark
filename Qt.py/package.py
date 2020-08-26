@@ -68,4 +68,4 @@ def build_command():
 
 def commands():
     env = globals()["env"]
-    env.PYTHONPATH.prepend("{root}/payload")
+    env.PYTHONPATH.prepend("{root}")
