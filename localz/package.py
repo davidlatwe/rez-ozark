@@ -1,7 +1,6 @@
 
 import os
 early = globals()["early"]
-__localzsrc = os.getcwd() + "src"
 
 
 name = "localz"
@@ -12,30 +11,31 @@ description = "Package localisation for Rez"
 
 
 @early()
+def __payload():
+    from earlymod import util
+    return util.git_build_clone(
+        url="https://github.com/mottosso/rez-localz.git",
+    )
+
+
+@early()
 def version():
-    src_pkg = os.path.join(__localzsrc, "package.py")
+    data = globals()["this"].__payload
+    src_pkg = os.path.join(data["repo"], "package.py")
 
     _globals = globals().copy()
     with open(src_pkg, "r") as pkg:
         pkg_source = "".join(pkg.readlines())
         exec(pkg_source, _globals)
 
-    return _globals.get("version", "unknown")
+    return _globals["version"]
 
 
 @early()
 def authors():
-    import subprocess
-
-    name_list = subprocess.check_output(
-        ["git", "shortlog", "-sn"],
-        universal_newlines=True,
-        cwd=__localzsrc,
-    ).strip()
-    contributors = [n.strip().split("\t", 1)[-1]
-                    for n in name_list.split("\n")]
-
-    return contributors
+    from earlymod import util
+    data = globals()["this"].__payload
+    return util.git_authors(data["repo"])
 
 
 tools = [
@@ -50,8 +50,16 @@ requires = [
     "rez-2.29+",
 ]
 
-build_command = "python -m rezutil build {root}src"
+
 private_build_requires = ["rezutil-1"]
+
+
+@early()
+def build_command():
+    data = globals()["this"].__payload
+    return "python -m rezutil build {root}".format(
+        root=data["repo"],
+    )
 
 
 def commands():
