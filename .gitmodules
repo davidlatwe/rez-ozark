@@ -1,6 +1,3 @@
-[submodule "gitz"]
-	path = gitz
-	url = https://github.com/davidlatwe/rez-gitz.git
 [submodule "pipz"]
 	path = pipz
 	url = https://github.com/davidlatwe/rez-pipz.git
