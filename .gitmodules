@@ -1,6 +1,3 @@
-[submodule "miniconda"]
-	path = miniconda
-	url = https://github.com/davidlatwe/rez-miniconda.git
 [submodule "rezsrc"]
 	path = rezsrc
 	url = https://github.com/davidlatwe/rez.git
