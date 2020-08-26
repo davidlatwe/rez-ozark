@@ -27,6 +27,11 @@ def git_build_clone(url, branch=None, checkout_latest_tag=False):
     args += [url, clonedir]
     check_output(args)
 
+    # no read-only, for later cleanup
+    for base, dirs, files in os.walk(os.path.join(clonedir, ".git")):
+        for file in files:
+            os.chmod(os.path.join(base, file), stat.S_IWRITE)
+
     if checkout_latest_tag:
         tag = git_checkout_latest_tag(clonedir)
     else:
