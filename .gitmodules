@@ -4,6 +4,3 @@
 [submodule "rezsrc"]
 	path = rezsrc
 	url = https://github.com/davidlatwe/rez.git
-[submodule "allzparksrc"]
-	path = allzparksrc
-	url = https://github.com/davidlatwe/allzpark.git
