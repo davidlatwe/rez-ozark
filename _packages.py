@@ -56,18 +56,6 @@ packages = [
     },
 
     {
-        "name": "python-2.7",
-        "install": {
-            "args": ["rez-build", "--install", "--version=2.7"],
-            "cwd": os.path.join(root, "miniconda", "python"),
-        },
-        "release": {
-            "args": ["rez-release", "--version=2.7", "--no-latest"],
-            "cwd": os.path.join(root, "miniconda", "python"),
-        },
-    },
-
-    {
         "name": "pyidle",
         "install": {
             "args": ["rez-build", "--install"],
@@ -128,18 +116,6 @@ packages = [
     },
 
     {
-        "name": "gitz",
-        "install": {
-            "args": ["rez-build", "--install"],
-            "cwd": os.path.join(root, "gitz"),
-        },
-        "release": {
-            "args": ["rez-release"],
-            "cwd": os.path.join(root, "gitz"),
-        },
-    },
-
-    {
         "name": "pipz",
         "install": {
             "args": ["rez-build", "--install"],
@@ -148,19 +124,6 @@ packages = [
         "release": {
             "args": ["rez-release"],
             "cwd": os.path.join(root, "pipz"),
-        },
-    },
-
-    {
-        "name": "PySide2",
-        "install": {
-            "args": ["rez-env", "pipz", "--", "install", "PySide2", "--yes"],
-            "cwd": root,
-        },
-        "release": {
-            "args": ["rez-env", "pipz", "--", "install", "PySide2", "--yes",
-                     "--release"],
-            "cwd": root,
         },
     },
 
@@ -197,44 +160,6 @@ packages = [
         },
         "release": {
             "args": ["rez-env", "pipz", "--", "install", "Pillow", "--yes",
-                     "--release"],
-            "cwd": root,
-        },
-    },
-
-    {
-        "name": "rezgui",
-        "install": {
-            "args": ["rez-build", "--install"],
-            "cwd": os.path.join(root, "rezgui"),
-        },
-        "release": {
-            "args": ["rez-release"],
-            "cwd": os.path.join(root, "rezgui"),
-        },
-    },
-
-    {
-        "name": "pymongo",
-        "install": {
-            "args": ["rez-env", "pipz", "--", "install", "pymongo", "--yes"],
-            "cwd": root,
-        },
-        "release": {
-            "args": ["rez-env", "pipz", "--", "install", "pymongo", "--yes",
-                     "--release"],
-            "cwd": root,
-        },
-    },
-
-    {
-        "name": "montydb",
-        "install": {
-            "args": ["rez-env", "pipz", "--", "install", "montydb", "--yes"],
-            "cwd": root,
-        },
-        "release": {
-            "args": ["rez-env", "pipz", "--", "install", "montydb", "--yes",
                      "--release"],
             "cwd": root,
         },

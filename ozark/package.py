@@ -16,8 +16,6 @@ requires = [
     "localz",
     "pyidle",
     "identicon",
-    "pymongo",
-    "montydb",
     "allzpark",
 ]
 
