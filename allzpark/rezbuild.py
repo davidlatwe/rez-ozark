@@ -20,7 +20,7 @@ def build(source_path, build_path, install_path, targets=None):
         shutil.rmtree(dst)
     os.makedirs(dst)
 
-    args = ["python", "setup.py", "--quiet", "build", "--build-base", dst]
+    args = ["python", "setup.py", "build", "--build-base", dst]
     subprocess.check_call(args, cwd=__allzparksrc)
 
     for dirname in ["bin"]:

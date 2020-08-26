@@ -59,9 +59,6 @@ requires = [
 ]
 
 
-private_build_requires = ["rezutil-1"]
-
-
 @early()
 def build_command():
     import os
