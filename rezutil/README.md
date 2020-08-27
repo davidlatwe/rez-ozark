@@ -23,6 +23,8 @@ Rez packages (in filesystem based repository) are case sensitivity, but packages
 
 For example, `rich` has a dependency package called `Pygments`, but the name in `rich`'s `requires` list is `pygments`.
 
+*Also see https://github.com/mottosso/rez-pipz/issues/30.*
+
 To workaround this, I find explicitly define all `pipz` installed packages into each `package.py` helps. Because in that way, not only packages name and the requires are explicitly defined (letter case being handled) but also you can manage them all with other packages that are not installed by `pipz` in the same manner.
 
 Here my current workflow:
