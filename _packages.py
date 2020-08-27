@@ -128,15 +128,26 @@ packages = [
     },
 
     {
-        "name": "PyQt5",
+        "name": "PyQt5_sip",
         "install": {
-            "args": ["rez-env", "pipz", "--", "install", "PyQt5", "--yes"],
-            "cwd": root,
+            "args": ["rez-build", "--install"],
+            "cwd": os.path.join(root, "_pip", "PyQt5_sip"),
         },
         "release": {
-            "args": ["rez-env", "pipz", "--", "install", "PyQt5", "--yes",
-                     "--release"],
-            "cwd": root,
+            "args": ["rez-release"],
+            "cwd": os.path.join(root, "_pip", "PyQt5_sip"),
+        },
+    },
+
+    {
+        "name": "PyQt5",
+        "install": {
+            "args": ["rez-build", "--install"],
+            "cwd": os.path.join(root, "_pip", "PyQt5"),
+        },
+        "release": {
+            "args": ["rez-release"],
+            "cwd": os.path.join(root, "_pip", "PyQt5"),
         },
     },
 
@@ -155,13 +166,12 @@ packages = [
     {
         "name": "Pillow",
         "install": {
-            "args": ["rez-env", "pipz", "--", "install", "Pillow", "--yes"],
-            "cwd": root,
+            "args": ["rez-build", "--install"],
+            "cwd": os.path.join(root, "_pip", "Pillow"),
         },
         "release": {
-            "args": ["rez-env", "pipz", "--", "install", "Pillow", "--yes",
-                     "--release"],
-            "cwd": root,
+            "args": ["rez-release"],
+            "cwd": os.path.join(root, "_pip", "Pillow"),
         },
     },
 
