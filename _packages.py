@@ -176,6 +176,30 @@ packages = [
     },
 
     {
+        "name": "pymongo",
+        "install": {
+            "args": ["rez-build", "--install"],
+            "cwd": os.path.join(root, "_pip", "pymongo"),
+        },
+        "release": {
+            "args": ["rez-release"],
+            "cwd": os.path.join(root, "_pip", "pymongo"),
+        },
+    },
+
+    {
+        "name": "montydb",
+        "install": {
+            "args": ["rez-build", "--install"],
+            "cwd": os.path.join(root, "_pip", "montydb"),
+        },
+        "release": {
+            "args": ["rez-release"],
+            "cwd": os.path.join(root, "_pip", "montydb"),
+        },
+    },
+
+    {
         "name": "identicon",
         "install": {
             "args": ["rez-build", "--install"],
