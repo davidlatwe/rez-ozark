@@ -56,7 +56,7 @@ requires = [
 def build_command():
     data = globals()["this"].__payload
     return " ".join([
-        "python {root}/install.py ".format(root=data["repo"]),
+        "python {root}/install.py --overwrite".format(root=data["repo"]),
 
         # Upon a new release of pip, wheel or setuptools,
         # this is what you edit
