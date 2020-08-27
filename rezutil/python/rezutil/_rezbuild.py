@@ -189,7 +189,56 @@ def build(source_path, build_path, install_path=None, targets=None):
 
     _copy()
 
-    if "install" in (targets or []):
+    if "install" in targets:
+        _install()
+
+
+def pipz_build(source_path, build_path, install_path, targets=None):
+    try:
+        from pipz import pip
+    except ImportError:
+        raise ImportError("rez-pipz package required.")
+
+    targets = targets or []
+
+    def _pipz():
+        if os.path.exists(build_path):
+            tell("Cleaning previous build..", 3)
+            clean(build_path)
+
+        name = "%s==%s" % (os.environ["REZ_BUILD_PROJECT_NAME"],
+                           os.environ["REZ_BUILD_PROJECT_VERSION"])
+        tell("Downloading %s.." % name, 3)
+        new = pip.install(
+            names=[name],
+            prefix=build_path,
+            extra_args=["--no-deps"],
+        )[0]  # Must be one and only one downloaded.
+
+        installed_path = os.path.join(build_path, new.name)
+        payload_path = os.path.join(installed_path,
+                                    str(new.version),
+                                    *[str(v) for v in new.variants[0]])
+
+        # pull it out
+        for item in os.listdir(payload_path):
+            shutil.move(os.path.join(payload_path, item), build_path)
+        shutil.rmtree(installed_path)
+
+    def _install():
+        if os.path.exists(install_path):
+            tell("Cleaning previous install..", 3)
+            clean(install_path)
+
+        for relpath in os.listdir(build_path):
+            tell("Installing %s" % relpath, 3)
+            src = os.path.join(build_path, relpath)
+            dst = os.path.join(install_path, relpath)
+            shutil.copytree(src, dst)
+
+    _pipz()
+
+    if "install" in targets:
         _install()
 
 
@@ -199,6 +248,7 @@ def main(argv):
     parser = argparse.ArgumentParser("rezbuild")
 
     parser.add_argument("source_path", type=str)
+    parser.add_argument("--use-pipz", action="store_true")
     parser.add_argument("--ignore", default=",".join(IGNORE))
     parser.add_argument("--quiet", action="store_true")
     parser.add_argument("--retries", type=int, default=RETRY)
@@ -220,11 +270,12 @@ def main(argv):
         log.setLevel(logging.ERROR)
 
     targets = ["install"] if opts.install else []
+    builder = pipz_build if opts.use_pipz else build
 
-    build(opts.source_path,
-          opts.build_path,
-          opts.install_path,
-          targets)
+    builder(opts.source_path,
+            opts.build_path,
+            opts.install_path,
+            targets)
 
 
 if __name__ == '__main__':
