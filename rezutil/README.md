@@ -40,3 +40,7 @@ Here my current workflow:
 3. Write `package.py` for each of them.
 
 4. `rez-build` them in the order they need.
+
+TODO:
+maybe we could use, for example, `johnnydep pysftp --output-format json`
+to generate `package.py` or auto-deploy list.
