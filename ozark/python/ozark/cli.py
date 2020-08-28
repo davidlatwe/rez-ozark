@@ -14,9 +14,7 @@ def party(opt):
             util.build(location=opt.at)
 
 
-def main(argv=None):
-    argv = argv or sys.argv
-
+def make_parsers():
     parser = argparse.ArgumentParser(description="Ozark, project profile tool")
     subparsers = parser.add_subparsers(help="sub-command help")
 
@@ -38,6 +36,20 @@ def main(argv=None):
         help="List profiles."
     )
     # (TODO) Add an option to list out current registered locations
+
+    return {
+        "main": parser,
+        "party": parser_party,
+    }
+
+
+def main(argv=None):
+    argv = argv or sys.argv
+
+    parsers = make_parsers()
+    parser = parsers["main"]
+    parser_party = parsers["party"]
+
     parser_party.set_defaults(run=party)
 
     # Parsing args
