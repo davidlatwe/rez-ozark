@@ -1,10 +1,9 @@
-name = "rezutil"
-version = "1.4.0"
-requires = [
-    "python-2.7+,<4",
-]
 
-_category = "int"
+name = "rezutil"
+
+version = "1.4.0"
+
+
 # build with bez build system
 
 

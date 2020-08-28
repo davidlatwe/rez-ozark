@@ -15,11 +15,6 @@ def version():
     return rez.__version__
 
 
-requires = [
-    "python"
-]
-
-
 variants = [
     ["platform-*"],
 ]

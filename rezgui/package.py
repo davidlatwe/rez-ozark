@@ -20,7 +20,6 @@ tools = [
 ]
 
 requires = [
-    "python",
     "rez",
     "Qt.py",
 ]
