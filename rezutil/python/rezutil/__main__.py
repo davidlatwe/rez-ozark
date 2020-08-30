@@ -11,11 +11,7 @@ if argv1[-1] == ["--help"]:
     parser.print_help()
     exit(0)
 
-try:
-    opts, unknown = parser.parse_known_args(argv1)
-except Exception:
-    parser.print_help()
-    exit(1)
+opts, unknown = parser.parse_known_args(argv1)
 
 if opts.command == "build":
     from . import _rezbuild
