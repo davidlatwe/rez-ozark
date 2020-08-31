@@ -153,6 +153,8 @@ def clean(root, attempt=0):
 
             os.remove(abspath)
 
+    os.removedirs(root)
+
 
 @retry
 def copy_with_retry(src, dst, attempt=0):
