@@ -109,7 +109,7 @@ def patch_changelog(path):
     if max_revisions:
         args.extend(["-n", str(max_revisions)])
 
-    _changelog = check_output(args, universal_newlines=True, cwd=path)
+    _changelog = check_output(args, cwd=path).decode()
 
     def git_get_changelog(previous_revision=None):
         if previous_revision is not None:
