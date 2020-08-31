@@ -36,6 +36,9 @@ def git_build_clone(url, branch, tag, callbacks=None):
     for callback in callbacks or []:
         callback(data)
 
+    # Patch changelog
+    patch_changelog(clonedir)
+
     # Avoid repeating in each variation build
     os.environ["_GIT_CLONED_DATA"] = json.dumps(data)
 
@@ -95,3 +98,40 @@ def clean(root):
         os.chmod(name, stat.S_IWRITE)
         os.remove(name)
     shutil.rmtree(root, onerror=del_rw)
+
+
+def patch_changelog(path):
+    from rez.config import config
+    from rez.build_process import BuildProcessHelper
+
+    max_revisions = config.max_package_changelog_revisions
+    args = ["git", "log"]
+    if max_revisions:
+        args.extend(["-n", str(max_revisions)])
+
+    _changelog = check_output(args, universal_newlines=True, cwd=path)
+
+    def git_get_changelog(previous_revision=None):
+        if previous_revision is not None:
+            # returns logs to last common ancestor
+            prev_commit = "commit %s\n" % previous_revision["commit"]
+            lines = list()
+            for line in _changelog.split("\n"):
+                if line == prev_commit:
+                    break
+                lines.append(line)
+
+            return "\n".join(lines)
+        else:
+            return _changelog
+
+    def get_changelog(self):
+        previous_package = self.get_previous_release()
+        if previous_package:
+            previous_revision = previous_package.revision
+        else:
+            previous_revision = None
+
+        return git_get_changelog(previous_revision)
+
+    BuildProcessHelper.get_changelog = get_changelog
