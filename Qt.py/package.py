@@ -15,7 +15,8 @@ def __payload():
     from earlymod import util
     return util.git_build_clone(
         url="https://github.com/mottosso/Qt.py.git",
-        checkout_latest_tag=True,
+        branch="master",
+        tag="1.2.6",
     )
 
 
@@ -27,9 +28,8 @@ def version():
 
 @early()
 def authors():
-    from earlymod import util
     data = globals()["this"].__payload
-    return util.git_authors(data["repo"])
+    return data["authors"]
 
 
 @early()

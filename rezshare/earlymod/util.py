@@ -6,7 +6,7 @@ import shutil
 from subprocess import check_output
 
 
-def git_build_clone(url, branch=None, checkout_latest_tag=False):
+def git_build_clone(url, branch, tag, callbacks=None):
     """
     This can be called multiple times during build, and will reuse previous
     clone data if exists.
@@ -20,31 +20,33 @@ def git_build_clone(url, branch=None, checkout_latest_tag=False):
     if os.path.isdir(clonedir):
         clean(clonedir)
 
-    args = ["git", "clone", "--single-branch"]
-    if branch:
-        args += ["--branch", branch]
-
+    # Clone and checkout specific commit/tag
+    args = ["git", "clone", "--single-branch", "--branch", branch]
     args += [url, clonedir]
     check_output(args)
-
-    # no read-only, for later cleanup
-    for base, dirs, files in os.walk(os.path.join(clonedir, ".git")):
-        for file in files:
-            os.chmod(os.path.join(base, file), stat.S_IWRITE | stat.S_IREAD)
-
-    if checkout_latest_tag:
-        tag = git_checkout_latest_tag(clonedir)
-    else:
-        tag = None
+    git_checkout_tag(clonedir, tag)
 
     data = {
         "repo": clonedir,
+        "branch": branch,
         "tag": tag,
+        "authors": git_authors(clonedir),
     }
+    # Additional callbacks that require git
+    for callback in callbacks or []:
+        callback(data)
+
     # Avoid repeating in each variation build
     os.environ["_GIT_CLONED_DATA"] = json.dumps(data)
 
+    # Remove .git for tidy
+    clean(os.path.join(clonedir, ".git"))
+
     return data
+
+
+def git_checkout_tag(path, tag):
+    check_output(["git", "checkout", tag], cwd=path)
 
 
 def git_checkout_latest_tag(path):
@@ -62,7 +64,8 @@ def git_checkout_latest_tag(path):
         universal_newlines=True,
         cwd=path
     ).strip()
-    check_output(["git", "checkout", tag], cwd=path)
+
+    git_checkout_tag(path, tag)
 
     return tag
 
@@ -76,6 +79,14 @@ def git_authors(path):
         n.strip().split("\t", 1)[-1]
         for n in name_list.strip().split("\n")
     ]
+
+
+def git_branch(path):
+    return check_output(
+        ["git", "branch", "--show-current"],
+        universal_newlines=True,
+        cwd=path,
+    ).strip()
 
 
 def clean(root):

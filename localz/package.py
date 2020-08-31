@@ -15,6 +15,8 @@ def __payload():
     from earlymod import util
     return util.git_build_clone(
         url="https://github.com/mottosso/rez-localz.git",
+        branch="master",
+        tag="0f7a472b25f0a333ad080bbc42a6140249cb8838",
     )
 
 
@@ -33,9 +35,8 @@ def version():
 
 @early()
 def authors():
-    from earlymod import util
     data = globals()["this"].__payload
-    return util.git_authors(data["repo"])
+    return data["authors"]
 
 
 tools = [

@@ -17,6 +17,7 @@ def __payload():
     return util.git_build_clone(
         url="https://github.com/davidlatwe/rez-pipz.git",
         branch="dev",
+        tag="39a78981ae5e6c4dee3d5820064ffeb5006b1003",
     )
 
 
@@ -35,9 +36,8 @@ def version():
 
 @early()
 def authors():
-    from earlymod import util
     data = globals()["this"].__payload
-    return util.git_authors(data["repo"])
+    return data["authors"]
 
 
 tools = [
