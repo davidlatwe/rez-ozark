@@ -1,9 +1,45 @@
 
 import os
+import sys
 import json
 import stat
 import shutil
 from subprocess import check_output
+
+
+def git_payload(local, remote, callbacks=None):
+    rez_dash_build = sys.argv[0].endswith("rez-build")
+    rez_space_build = sys.argv[0].endswith("rez") and sys.argv[1] == "build"
+    is_local = rez_dash_build or rez_space_build
+
+    if local and is_local:
+        return git_build_local(callbacks=callbacks, **local)
+    else:
+        return git_build_clone(callbacks=callbacks, **remote)
+
+
+def git_build_local(path, tag, callbacks=None):
+    if os.getenv("_GIT_REPO_DATA"):
+        data = json.loads(os.environ["_GIT_REPO_DATA"])
+        return data
+
+    data = {
+        "repo": path,
+        "branch": git_branch(path),
+        "tag": tag,
+        "authors": git_authors(path),
+    }
+    # Additional callbacks that require git
+    for callback in callbacks or []:
+        callback(data)
+
+    # Patch changelog
+    patch_changelog(path)
+
+    # Avoid repeating in each variation build
+    os.environ["_GIT_REPO_DATA"] = json.dumps(data)
+
+    return data
 
 
 def git_build_clone(url, branch, tag, callbacks=None):
@@ -11,8 +47,8 @@ def git_build_clone(url, branch, tag, callbacks=None):
     This can be called multiple times during build, and will reuse previous
     clone data if exists.
     """
-    if os.getenv("_GIT_CLONED_DATA"):
-        data = json.loads(os.environ["_GIT_CLONED_DATA"])
+    if os.getenv("_GIT_REPO_DATA"):
+        data = json.loads(os.environ["_GIT_REPO_DATA"])
         return data
 
     build_dir = os.path.join(os.getcwd(), "build")
@@ -40,7 +76,7 @@ def git_build_clone(url, branch, tag, callbacks=None):
     patch_changelog(clonedir)
 
     # Avoid repeating in each variation build
-    os.environ["_GIT_CLONED_DATA"] = json.dumps(data)
+    os.environ["_GIT_REPO_DATA"] = json.dumps(data)
 
     # Remove .git for tidy
     clean(os.path.join(clonedir, ".git"))
